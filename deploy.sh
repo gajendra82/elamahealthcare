@@ -29,7 +29,13 @@ php artisan db:seed --class=SettingSeeder --force
 
 echo "==> clear & rebuild caches"
 php artisan optimize:clear
-php artisan storage:link 2>/dev/null || true
+
+echo "==> storage link"
+if [[ -e "$ROOT/public/storage" && ! -L "$ROOT/public/storage" ]]; then
+  rm -rf "$ROOT/public/storage"
+fi
+php artisan storage:link --force
+
 php artisan optimize
 
 echo "==> validate assets"
@@ -62,7 +68,11 @@ if [[ -d "$PUBLIC_HTML" ]]; then
     fi
   done
 
-  if [[ -L "$ROOT/public/storage" || -d "$ROOT/public/storage" ]]; then
+  if [[ -L "$ROOT/public/storage" ]]; then
+    mkdir -p "$PUBLIC_HTML/storage"
+    cp -a "$ROOT/storage/app/public/." "$PUBLIC_HTML/storage/"
+    echo "    synced storage (uploaded files)"
+  elif [[ -d "$ROOT/public/storage" ]]; then
     sync_dir "$ROOT/public/storage" "$PUBLIC_HTML/storage"
   fi
 else
