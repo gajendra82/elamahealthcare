@@ -16,13 +16,13 @@
         'foundingDate' => '1986',
         'address' => [
             '@type' => 'PostalAddress',
-            'streetAddress' => 'NL-5, Building no 14/4, Triveni APT, Behind St Augustine High School, Sector 11, Nerul-East',
-            'addressLocality' => 'Navi Mumbai',
-            'addressRegion' => 'Maharashtra',
-            'addressCountry' => 'IN',
+            'streetAddress' => config('contact.address'),
+            'addressLocality' => config('contact.locality'),
+            'addressRegion' => config('contact.region'),
+            'addressCountry' => config('contact.country'),
         ],
-        'telephone' => '+91-9820351123',
-        'email' => 'md.elamahealthcare@gmail.com',
+        'telephone' => config('contact.phone'),
+        'email' => config('contact.email'),
     ];
 @endphp
 

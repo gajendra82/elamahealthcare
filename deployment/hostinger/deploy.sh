@@ -91,6 +91,8 @@ run php artisan migrate --force
 
 log "Refresh canonical settings, banners, categories, products, and leadership"
 run php artisan db:seed --class=SettingSeeder --force
+run php artisan cache:forget settings.flat
+run php artisan cache:forget settings.all
 run php artisan db:seed --class=CsrGallerySeeder --force
 run php artisan db:seed --class=BannerSeeder --force
 run php artisan db:seed --class=CategorySeeder --force

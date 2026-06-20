@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Setting;
+use App\Services\SettingService;
 use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
@@ -23,9 +24,9 @@ class SettingSeeder extends Seeder
             ['key' => 'stat_partners', 'value' => '50', 'group' => 'stats'],
             ['key' => 'stat_manufacturing_partners', 'value' => '12', 'group' => 'stats'],
 
-            ['key' => 'contact_address', 'value' => 'NL-5, Building no 14/4, Triveni APT, Behind St Augustine High School, Sector 11, Nerul East, Navi Mumbai', 'group' => 'contact'],
-            ['key' => 'contact_phone', 'value' => '0091-9820351123', 'group' => 'contact'],
-            ['key' => 'contact_email', 'value' => 'md.elamahealthcare@gmail.com', 'group' => 'contact'],
+            ['key' => 'contact_address', 'value' => config('contact.address'), 'group' => 'contact'],
+            ['key' => 'contact_phone', 'value' => config('contact.phone'), 'group' => 'contact'],
+            ['key' => 'contact_email', 'value' => config('contact.email'), 'group' => 'contact'],
 
             ['key' => 'social_linkedin', 'value' => 'https://www.linkedin.com/company/elama-healthcare', 'group' => 'social'],
             ['key' => 'social_facebook', 'value' => 'https://www.facebook.com/elamahealthcare', 'group' => 'social'],
@@ -42,5 +43,7 @@ class SettingSeeder extends Seeder
                 ['value' => $setting['value'], 'group' => $setting['group']]
             );
         }
+
+        app(SettingService::class)->clearCache();
     }
 }

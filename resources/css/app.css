@@ -202,7 +202,14 @@
     .premium-hero-slide__shade {
         position: absolute;
         inset: 0;
-        background: linear-gradient(90deg, rgb(255 255 255 / 0.96) 0%, rgb(255 255 255 / 0.88) 34%, rgb(255 255 255 / 0.2) 58%, transparent 72%);
+        background: linear-gradient(
+            90deg,
+            rgb(255 255 255 / 0.98) 0%,
+            rgb(255 255 255 / 0.94) 18%,
+            rgb(255 255 255 / 0.72) 32%,
+            rgb(255 255 255 / 0.28) 46%,
+            transparent 58%
+        );
     }
 
     .premium-hero-slide__wave {
@@ -231,8 +238,13 @@
         display: flex;
         min-height: 34rem;
         align-items: center;
+        justify-content: flex-start;
         padding-top: 6.5rem;
         padding-bottom: 4.5rem;
+    }
+
+    .premium-hero-slide__copy {
+        width: min(100%, 38rem);
     }
 
     @media (min-width: 1024px) {
@@ -240,6 +252,10 @@
             min-height: 38rem;
             padding-top: 7rem;
             padding-bottom: 5rem;
+        }
+
+        .premium-hero-slide__copy {
+            width: min(42vw, 40rem);
         }
     }
 
@@ -336,20 +352,20 @@
     }
 
     .premium-hero-swiper .swiper-button-prev {
-        left: 1rem;
+        left: 0.5rem;
     }
 
     .premium-hero-swiper .swiper-button-next {
-        right: 1rem;
+        right: 0.5rem;
     }
 
     @media (min-width: 1280px) {
         .premium-hero-swiper .swiper-button-prev {
-            left: 2rem;
+            left: 1rem;
         }
 
         .premium-hero-swiper .swiper-button-next {
-            right: 2rem;
+            right: 1rem;
         }
     }
 

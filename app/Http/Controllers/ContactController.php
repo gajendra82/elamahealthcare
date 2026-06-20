@@ -21,12 +21,12 @@ class ContactController extends Controller
         return view('pages.contact', [
             'seo' => $this->seoService->forPage(
                 'Contact Us | Elama Healthcare',
-                'Get in touch with Elama Healthcare Solutions Pvt. Ltd. in Navi Mumbai, India.'
+                'Get in touch with Elama Healthcare Solutions Pvt. Ltd. at our corporate office in Thane, India.'
             ),
             'contact' => [
-                'address' => $this->settingService->get('contact_address'),
-                'phone' => $this->settingService->get('contact_phone'),
-                'email' => $this->settingService->get('contact_email'),
+                'address' => $this->settingService->get('contact_address', config('contact.address')),
+                'phone' => $this->settingService->get('contact_phone', config('contact.phone')),
+                'email' => $this->settingService->get('contact_email', config('contact.email')),
             ],
         ]);
     }

@@ -40,8 +40,8 @@
                         </div>
                         <div class="premium-hero-slide__dots" aria-hidden="true"></div>
 
-                        <div class="premium-hero-slide__content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                            <div class="max-w-2xl">
+                        <div class="premium-hero-slide__content mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                            <div class="premium-hero-slide__copy w-full max-w-xl lg:max-w-2xl">
                                 <p class="premium-hero-slide__eyebrow">Elama Healthcare Solutions Pvt. Ltd.</p>
                                 <h1 class="premium-hero-slide__title">{{ $banner->title }}</h1>
                                 <div class="premium-hero-slide__rule"></div>

@@ -64,14 +64,14 @@ class SeoService
                 '@type' => 'PostalAddress',
                 'streetAddress' => $this->settingService->get(
                     'contact_address',
-                    'NL-5, Building no 14/4, Triveni APT, Sector 11, Nerul East, Navi Mumbai'
+                    config('contact.address')
                 ),
-                'addressLocality' => 'Navi Mumbai',
-                'addressRegion' => 'Maharashtra',
-                'addressCountry' => 'IN',
+                'addressLocality' => config('contact.locality'),
+                'addressRegion' => config('contact.region'),
+                'addressCountry' => config('contact.country'),
             ],
-            'telephone' => $this->settingService->get('contact_phone', '+91-9820351123'),
-            'email' => $this->settingService->get('contact_email', 'md.elamahealthcare@gmail.com'),
+            'telephone' => $this->settingService->get('contact_phone', config('contact.phone')),
+            'email' => $this->settingService->get('contact_email', config('contact.email')),
             'sameAs' => array_values(array_filter([
                 $this->settingService->get('social_linkedin'),
                 $this->settingService->get('social_facebook'),
