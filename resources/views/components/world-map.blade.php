@@ -23,7 +23,7 @@
                     <path class="map-country" :class="{ 'active': activeCountry === 'CG' }" @click="select('CG')" @mouseenter="activeCountry = 'CG'" @mouseleave="activeCountry = null" d="M470,300 L500,290 L510,320 L480,330 Z" fill="#94a3b8"/>
 
                     {{-- Asia --}}
-                    <path class="map-country" :class="{ 'active': activeCountry === 'IN' }" @click="select('IN')" @mouseenter="activeCountry = 'IN'" @mouseleave="activeCountry = null" d="M620,220 L660,200 L680,240 L650,280 L620,260 Z" fill="#008641" opacity="0.6"/>
+                    <path class="map-country" :class="{ 'active': activeCountry === 'IN' }" @click="select('IN')" @mouseenter="activeCountry = 'IN'" @mouseleave="activeCountry = null" d="M620,220 L660,200 L680,240 L650,280 L620,260 Z" fill="#0B4F8C" opacity="0.6"/>
                     <path class="map-country" :class="{ 'active': activeCountry === 'MM' }" @click="select('MM')" @mouseenter="activeCountry = 'MM'" @mouseleave="activeCountry = null" d="M700,230 L730,220 L740,250 L715,265 Z" fill="#94a3b8"/>
                     <path class="map-country" :class="{ 'active': activeCountry === 'KH' }" @click="select('KH')" @mouseenter="activeCountry = 'KH'" @mouseleave="activeCountry = null" d="M730,260 L750,250 L760,275 L740,285 Z" fill="#94a3b8"/>
                     <path class="map-country" :class="{ 'active': activeCountry === 'VN' }" @click="select('VN')" @mouseenter="activeCountry = 'VN'" @mouseleave="activeCountry = null" d="M750,240 L770,220 L780,270 L760,290 L750,260 Z" fill="#94a3b8"/>
@@ -32,15 +32,15 @@
                     <path class="map-country" :class="{ 'active': activeCountry === 'AF' }" @click="select('AF')" @mouseenter="activeCountry = 'AF'" @mouseleave="activeCountry = null" d="M620,180 L660,170 L670,200 L630,210 Z" fill="#94a3b8"/>
 
                     {{-- Decorative dots for presence --}}
-                    <circle cx="715" cy="245" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="755" cy="265" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="770" cy="255" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="800" cy="270" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="670" cy="218" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="545" cy="300" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="510" cy="310" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="505" cy="255" r="4" fill="#A6C724" class="animate-pulse-soft"/>
-                    <circle cx="645" cy="190" r="4" fill="#A6C724" class="animate-pulse-soft"/>
+                    <circle cx="715" cy="245" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="755" cy="265" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="770" cy="255" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="800" cy="270" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="670" cy="218" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="545" cy="300" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="510" cy="310" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="505" cy="255" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
+                    <circle cx="645" cy="190" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
                 </svg>
 
                 <div x-show="activeCountry" x-transition class="absolute bottom-6 left-6 glass-card rounded-xl px-4 py-3">

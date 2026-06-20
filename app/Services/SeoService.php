@@ -18,7 +18,7 @@ class SeoService
             ),
             'description' => $this->settingService->get(
                 'seo_default_description',
-                'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.'
+                'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe.'
             ),
             'image' => $this->assetService->seoImageUrl(),
             'canonical' => url()->current(),

@@ -36,7 +36,7 @@
     "src": "node_modules/lightgallery/images/loading.gif"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DR6HVw3l.css",
+    "file": "assets/app-C0Ob_Zw7.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -45,7 +45,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DbMj7PI6.js",
+    "file": "assets/app-DTayNBIg.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

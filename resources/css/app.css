@@ -8,29 +8,29 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
 @theme {
-    /* Elama Healthcare logo palette */
-    --color-primary: #008641;
-    --color-primary-dark: #006432;
-    --color-primary-light: #3FA470;
-    --color-secondary: #A6C724;
-    --color-secondary-dark: #8AA81E;
-    --color-secondary-light: #BFD44A;
-    --color-accent: #3FA470;
-    --color-accent-dark: #2D8A5E;
-    --color-accent-mint: #BFE1CF;
-    --color-background: #F8FAF8;
+    /* Elama Healthcare — professional corporate blue palette */
+    --color-primary: #0B4F8C;
+    --color-primary-dark: #062F54;
+    --color-primary-light: #1E6BB8;
+    --color-secondary: #3B8DD4;
+    --color-secondary-dark: #2A6FA8;
+    --color-secondary-light: #6CB4E8;
+    --color-accent: #5CB8E8;
+    --color-accent-dark: #3A8FC4;
+    --color-accent-mint: #D6EAF8;
+    --color-background: #F4F8FC;
     --color-dark: #083848;
     --color-dark-muted: #5B5B5B;
-    --color-muted: #848484;
+    --color-muted: #6B7280;
     --color-border: #E2E8F0;
     --color-surface: #FFFFFF;
 
     --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
     --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-    --shadow-soft: 0 4px 24px -4px rgb(0 134 65 / 0.1);
-    --shadow-card: 0 8px 32px -8px rgb(8 56 72 / 0.12);
-    --shadow-glow: 0 0 40px -10px rgb(166 199 36 / 0.35);
+    --shadow-soft: 0 4px 24px -4px rgb(11 79 140 / 0.12);
+    --shadow-card: 0 8px 32px -8px rgb(8 56 72 / 0.14);
+    --shadow-glow: 0 0 40px -10px rgb(59 141 212 / 0.35);
 
     --radius-xl: 1rem;
     --radius-2xl: 1.25rem;
@@ -89,12 +89,12 @@
         background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         border-radius: 9999px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 14px -2px rgb(0 134 65 / 0.4);
+        box-shadow: 0 4px 14px -2px rgb(11 79 140 / 0.4);
     }
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px -4px rgb(0 134 65 / 0.5);
+        box-shadow: 0 8px 24px -4px rgb(11 79 140 / 0.5);
         background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     }
 
@@ -108,15 +108,15 @@
         font-weight: 600;
         font-size: 0.9375rem;
         color: white;
-        background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+        background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
         border-radius: 9999px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 14px -2px rgb(166 199 36 / 0.35);
+        box-shadow: 0 4px 14px -2px rgb(59 141 212 / 0.35);
     }
 
     .btn-secondary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px -4px rgb(166 199 36 / 0.45);
+        box-shadow: 0 8px 24px -4px rgb(59 141 212 / 0.45);
     }
 
     .btn-outline {
@@ -163,7 +163,7 @@
     }
 
     .gradient-hero {
-        background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary-dark) 45%, var(--color-primary) 100%);
+        background: linear-gradient(135deg, #062F54 0%, var(--color-primary-dark) 35%, var(--color-primary) 70%, var(--color-primary-light) 100%);
     }
 
     .gradient-text {
@@ -194,8 +194,8 @@
         font-weight: 600;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--color-secondary);
-        background: color-mix(in srgb, var(--color-secondary) 10%, transparent);
+        color: var(--color-primary);
+        background: color-mix(in srgb, var(--color-primary) 10%, transparent);
         border-radius: 9999px;
     }
 

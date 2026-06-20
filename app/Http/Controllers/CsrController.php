@@ -16,7 +16,7 @@ class CsrController extends Controller
         return view('pages.csr', [
             'seo' => $this->seoService->forPage(
                 'CSR Activities | Elama Healthcare',
-                'Corporate social responsibility initiatives delivering healthcare access and community support since 1986.'
+                'Corporate social responsibility initiatives delivering healthcare access and community support worldwide.'
             ),
             'galleries' => CsrGallery::query()->active()->ordered()->get(),
         ]);

@@ -18,10 +18,10 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#008641',
-                        secondary: '#A6C724',
-                        'primary-dark': '#006432',
-                        'secondary-dark': '#8AA81E',
+                        primary: '#0B4F8C',
+                        secondary: '#3B8DD4',
+                        'primary-dark': '#062F54',
+                        'secondary-dark': '#2A6FA8',
                     },
                     fontFamily: {
                         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -33,14 +33,14 @@
 
     <style>
         [x-cloak] { display: none !important; }
-        .sidebar-link.active { background-color: rgba(255,255,255,0.15); border-left: 3px solid #A6C724; }
+        .sidebar-link.active { background-color: rgba(255,255,255,0.15); border-left: 3px solid #5CB8E8; }
         .dataTables_wrapper .dataTables_filter input,
         .dataTables_wrapper .dataTables_length select {
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             padding: 0.375rem 0.75rem;
         }
-        table.dataTable thead th { border-bottom: 2px solid #008641 !important; }
+        table.dataTable thead th { border-bottom: 2px solid #0B4F8C !important; }
         .dt-layout-row { margin-bottom: 0.75rem; }
     </style>
 

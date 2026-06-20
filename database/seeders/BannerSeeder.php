@@ -13,14 +13,14 @@ class BannerSeeder extends Seeder
             [
                 'title' => 'Global Healthcare Solutions',
                 'subtitle' => 'Built on Trust, Quality & Innovation',
-                'image' => 'images/banners/hero-1.jpeg',
+                'image' => 'images/banners/elama-banner.jpg',
                 'button_text' => 'Discover Our Story',
                 'button_url' => '/about',
                 'sort_order' => 1,
             ],
             [
                 'title' => 'Affordable Quality Medicines',
-                'subtitle' => 'Delivering pharmaceutical excellence across the globe since 1986',
+                'subtitle' => 'Delivering pharmaceutical excellence across the globe',
                 'image' => 'images/banners/hero-2.jpeg',
                 'button_text' => 'Explore Products',
                 'button_url' => '/products',
@@ -30,7 +30,7 @@ class BannerSeeder extends Seeder
 
         foreach ($banners as $banner) {
             Banner::query()->updateOrCreate(
-                ['image' => $banner['image']],
+                ['sort_order' => $banner['sort_order']],
                 $banner + ['is_active' => true]
             );
         }

@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Quality Pharmaceuticals',
                 'Global Healthcare Solutions',
                 'Affordable Medicines Worldwide',
-                'Innovation Since 1986',
+                'Innovation & Excellence',
             ],
             typeSpeed: 50,
             backSpeed: 30,

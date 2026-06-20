@@ -222,7 +222,7 @@ class ValidateAssetsCommand extends Command
         $issues = 0;
         $patterns = [
             'images/hero/' => 'Use images/banners/ or $banners from database',
-            'logo.png' => 'Use images/logo/logo.jpeg or <x-logo />',
+            'logo.png' => 'Use images/logo/logo.png or <x-logo />',
             'images/about/about-' => 'Use config("assets.about_*") or asset_url()',
             'images/csr/csr-' => 'Use CsrGallery model or config("assets.csr")',
             'images/products/default.jpg' => 'Use asset_url() with product placeholder',

@@ -16,7 +16,7 @@ class AboutController extends Controller
         return view('pages.about', [
             'seo' => $this->seoService->forPage(
                 'About Us | Elama Healthcare',
-                'Learn about Elama Healthcare Solutions — serving global healthcare needs through empathy, innovation and technology since 1986.'
+                'Learn about Elama Healthcare Solutions — serving global healthcare needs through empathy, innovation and technology.'
             ),
             'leadership' => Leadership::query()->active()->ordered()->limit(2)->get(),
         ]);

@@ -34,7 +34,7 @@
                         Consistent growth and sustainability is a multidimensional aspiration for all at Elama Healthcare. We remain focused on providing quality and affordable medicines to billions of ailing patients across geographies and bridging the gap of unmet needs of the medical fraternity through continuous innovation.
                     </p>
                     <p>
-                        Our basic business philosophy, by its very nature, serves a social responsibility — we have a far better reason than profits alone to drive our performance. Sustainability is intrinsic to how we have operated since the genesis of the organization in 1986.
+                        Our basic business philosophy, by its very nature, serves a social responsibility — we have a far better reason than profits alone to drive our performance. Sustainability is intrinsic to how we operate as a responsible global healthcare organization.
                     </p>
                     <p>
                         Elama Healthcare is focused on increasing momentum through organic growth routes, well spread across geographies with focus on key therapeutic segments. We have forayed into high growth potential segments like Cardiovascular, Diabetes, Orthopedics, Gynecology, Respiratory and Oncology — adding significant depth to our existing product pipeline.

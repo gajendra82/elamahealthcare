@@ -172,7 +172,7 @@
                         <x-logo class="h-14 bg-white p-1.5" />
                     </a>
                     <p class="mt-4 text-sm leading-relaxed text-white/70">
-                        Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.
+                        Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe.
                     </p>
                     <div class="mt-6 flex gap-3">
                         <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-secondary"><i class="fab fa-linkedin-in"></i></a>

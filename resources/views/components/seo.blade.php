@@ -2,7 +2,7 @@
 
 @php
     $title = $seo['title'] ?? 'Elama Healthcare Solutions Pvt. Ltd.';
-    $description = $seo['description'] ?? 'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.';
+    $description = $seo['description'] ?? 'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe.';
     $canonical = $seo['canonical'] ?? url()->current();
     $image = $seo['image'] ?? asset_url(config('assets.seo_image'), 'logo');
     $type = $seo['type'] ?? 'website';

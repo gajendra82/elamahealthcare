@@ -8,13 +8,13 @@
             @forelse($banners as $banner)
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset_url($banner->image, 'hero') }}')"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-primary/40"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#062F54]/95 via-[#0B4F8C]/85 to-[#1E6BB8]/50"></div>
                 </div>
             @empty
                 @foreach(config('assets.hero_banners', []) as $slide)
                     <div class="swiper-slide relative">
                         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset_url($slide['path'], 'hero') }}')"></div>
-                        <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-primary/40"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#062F54]/95 via-[#0B4F8C]/85 to-[#1E6BB8]/50"></div>
                     </div>
                 @endforeach
             @endforelse
@@ -25,15 +25,15 @@
     </div>
 
     <div class="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-24 text-center sm:px-6 lg:px-8">
-        <span class="section-label mb-6 !text-accent !bg-white/10" data-aos="fade-down">Est. 1986</span>
+        <span class="section-label mb-6 !border-white/20 !bg-white/10 !text-accent-mint" data-aos="fade-down">Trusted Healthcare Partner</span>
         <h1 class="font-heading text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl" data-aos="fade-up">
             Global Healthcare Solutions<br>
-            <span class="text-accent">Built on Trust, Quality & Innovation</span>
+            <span class="text-accent-mint">Built on Trust, Quality & Innovation</span>
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg text-white/80" data-aos="fade-up" data-aos-delay="100">
-            Delivering affordable quality pharmaceutical products across the globe since 1986
+        <p class="mx-auto mt-6 max-w-2xl text-lg text-white/85" data-aos="fade-up" data-aos-delay="100">
+            Delivering affordable, quality pharmaceutical products to healthcare professionals and patients worldwide.
         </p>
-        <div class="mt-4 font-heading text-2xl font-semibold text-secondary sm:text-3xl" data-aos="fade-up" data-aos-delay="200">
+        <div class="mt-4 font-heading text-2xl font-semibold text-secondary-light sm:text-3xl" data-aos="fade-up" data-aos-delay="200">
             <span id="typed-headline"></span>
         </div>
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up" data-aos-delay="300">
@@ -55,7 +55,7 @@
         <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div data-aos="fade-right">
                 <span class="section-label mb-4 inline-block">About Elama</span>
-                <h2 class="font-heading text-3xl font-bold text-dark sm:text-4xl">Serving Global Healthcare Needs Since 1986</h2>
+                <h2 class="font-heading text-3xl font-bold text-dark sm:text-4xl">Global Healthcare Solutions You Can Trust</h2>
                 <p class="mt-6 leading-relaxed text-muted">
                     We supply affordable and quality medicines across the globe, regardless of geographic and socio-economic barriers. Through our strong manufacturing services supported with a highly qualified technical team, we build blocks to produce an organization that manufactures therapeutics for a range of diseases.
                 </p>
@@ -72,8 +72,8 @@
                     <x-image :src="config('assets.about_preview')" placeholder="about" alt="Elama Healthcare Facility" class="h-full w-full object-cover" />
                 </div>
                 <div class="absolute -bottom-6 -left-6 glass-card rounded-2xl p-6 shadow-card lg:-left-8">
-                    <p class="font-heading text-4xl font-bold text-primary">1986</p>
-                    <p class="text-sm font-medium text-muted">Years of Excellence</p>
+                    <p class="font-heading text-4xl font-bold text-primary">14+</p>
+                    <p class="text-sm font-medium text-muted">Countries Served</p>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
 {{-- Statistics --}}
 <section class="section-padding bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <x-section-heading label="Our Impact" title="Numbers That Define Us" subtitle="Four decades of commitment to global healthcare excellence." />
+        <x-section-heading label="Our Impact" title="Numbers That Define Us" subtitle="A global footprint built on quality, compliance, and customer commitment." />
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <x-stat-counter count="38" suffix="+" label="Years of Experience" icon="fas fa-calendar-alt" />
             <x-stat-counter count="14" suffix="+" label="Countries Served" icon="fas fa-globe-americas" />
@@ -291,7 +291,7 @@
                 <span class="section-label mb-4 inline-block">CSR</span>
                 <h2 class="font-heading text-3xl font-bold text-dark sm:text-4xl">Corporate Social Responsibility</h2>
                 <p class="mt-6 leading-relaxed text-muted">
-                    Our basic business philosophy, by its very nature, serves a social responsibility — we have a far better reason than profits alone to drive our performance. Sustainability is intrinsic to how we have operated since the genesis of the organization in 1986.
+                    Our basic business philosophy, by its very nature, serves a social responsibility — we have a far better reason than profits alone to drive our performance. Sustainability is intrinsic to how we operate as a responsible global healthcare organization.
                 </p>
                 <a href="{{ url('/csr') }}" class="btn-primary mt-8 inline-flex">
                     View CSR Activities

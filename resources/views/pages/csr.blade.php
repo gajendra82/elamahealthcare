@@ -17,7 +17,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-3xl text-center mb-12" data-aos="fade-up">
             <p class="text-lg leading-relaxed text-muted">
-                Our basic business philosophy, by its very nature, serves a social responsibility — we have a far better reason than profits alone to drive our performance. Sustainability is not a trend we blindly follow; it is intrinsic to how we have operated since the genesis of the organization in 1986.
+                Our basic business philosophy, by its very nature, serves a social responsibility — we have a far better reason than profits alone to drive our performance. Sustainability is not a trend we blindly follow; it is intrinsic to how we operate as a responsible global healthcare organization.
             </p>
         </div>
 
