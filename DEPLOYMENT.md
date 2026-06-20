@@ -107,8 +107,14 @@ php artisan key:generate
 ### 4. Deploy
 
 ```bash
-chmod +x deploy.sh
+chmod +x deploy.sh   # first time only (or use: bash deploy.sh)
 ./deploy.sh
+```
+
+If you see `Permission denied`, run:
+
+```bash
+bash deploy.sh
 ```
 
 The script handles everything: dependencies, build, migrations, caching, rsync, bootstrap files, validation.
@@ -121,8 +127,8 @@ Every update is identical:
 
 ```bash
 cd ~/domains/elamahealthcare.com/laravel/elamahealthcare
-git pull   # optional — deploy.sh also runs git pull
-./deploy.sh
+git pull
+bash deploy.sh
 ```
 
 **Zero manual steps.**

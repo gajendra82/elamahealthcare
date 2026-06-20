@@ -1,5 +1,8 @@
 * text=auto eol=lf
 
+deploy.sh text eol=lf
+deployment/hostinger/deploy.sh text eol=lf
+
 *.blade.php diff=html
 *.css diff=css
 *.html diff=html
