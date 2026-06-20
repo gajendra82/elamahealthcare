@@ -142,11 +142,14 @@
         window.Admin = {
             apiBase: '{{ url('/admin/api') }}',
             csrfToken: document.querySelector('meta[name="csrf-token"]').content,
+            uploadUrlPrefix: @json($storageUrlPrefix),
 
             storageUrl(path) {
                 if (!path) return null;
                 if (path.startsWith('http') || path.startsWith('/')) return path;
-                return `/storage/${path}`;
+                if (path.startsWith('images/')) return `/${path}`;
+                if (path.startsWith('uploads/') || path.startsWith('storage/')) return `/${path}`;
+                return `/${this.uploadUrlPrefix}/${path}`;
             },
 
             toast(message, type = 'success') {

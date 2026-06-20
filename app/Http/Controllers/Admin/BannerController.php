@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
+
     public function index(Request $request): JsonResponse
     {
         $items = Banner::query()
@@ -32,7 +36,7 @@ class BannerController extends Controller
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        $data['image'] = $request->file('image')->store('banners', 'public');
+        $data['image'] = $this->storage->store($request->file('image'), 'banners');
         $data['sort_order'] = $data['sort_order'] ?? 0;
         $data['is_active'] = $data['is_active'] ?? true;
 
@@ -63,8 +67,8 @@ class BannerController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($banner->image);
-            $data['image'] = $request->file('image')->store('banners', 'public');
+            $this->storage->delete($banner->image);
+            $data['image'] = $this->storage->store($request->file('image'), 'banners');
         }
 
         $banner->update($data);
@@ -77,7 +81,7 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner): JsonResponse
     {
-        Storage::disk('public')->delete($banner->image);
+        $this->storage->delete($banner->image);
         $banner->delete();
 
         return response()->json(['message' => 'Banner deleted successfully.']);

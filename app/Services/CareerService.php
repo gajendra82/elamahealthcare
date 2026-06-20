@@ -7,17 +7,17 @@ use App\Models\CareerApplication;
 use App\Models\CareerJob;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class CareerService
 {
     public function __construct(
-        private readonly SettingService $settingService
+        private readonly SettingService $settingService,
+        private readonly StorageService $storage
     ) {}
 
     public function store(CareerJob $job, array $data, UploadedFile $resume): CareerApplication
     {
-        $path = $resume->store('careers/resumes', 'public');
+        $path = $this->storage->store($resume, 'careers/resumes');
 
         $application = CareerApplication::query()->create([
             'career_job_id' => $job->id,
@@ -36,9 +36,10 @@ class CareerService
         }
 
         return $application;
+    }
 
     public function resumeUrl(CareerApplication $application): string
     {
-        return Storage::disk('public')->url($application->resume_path);
+        return $this->storage->url($application->resume_path) ?? '';
     }
 }

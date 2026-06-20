@@ -3,27 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MediaController extends Controller
 {
-    private const DISK = 'public';
-
     private const DIRECTORY = 'media';
+
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
 
     public function index(Request $request): JsonResponse
     {
-        $files = collect(Storage::disk(self::DISK)->files(self::DIRECTORY))
+        $files = collect($this->storage->disk()->files(self::DIRECTORY))
             ->map(function (string $path) {
                 return [
                     'path' => $path,
-                    'url' => Storage::disk(self::DISK)->url($path),
+                    'url' => $this->storage->url($path),
                     'name' => basename($path),
-                    'size' => Storage::disk(self::DISK)->size($path),
-                    'last_modified' => Storage::disk(self::DISK)->lastModified($path),
+                    'size' => $this->storage->disk()->size($path),
+                    'last_modified' => $this->storage->disk()->lastModified($path),
                 ];
             })
             ->sortByDesc('last_modified')
@@ -43,13 +45,13 @@ class MediaController extends Controller
             'file' => ['required', 'file', 'max:10240'],
         ]);
 
-        $path = $request->file('file')->store(self::DIRECTORY, self::DISK);
+        $path = $this->storage->store($request->file('file'), self::DIRECTORY);
 
         return response()->json([
             'message' => 'File uploaded successfully.',
             'data' => [
                 'path' => $path,
-                'url' => Storage::disk(self::DISK)->url($path),
+                'url' => $this->storage->url($path),
                 'name' => basename($path),
             ],
         ], 201);
@@ -65,11 +67,11 @@ class MediaController extends Controller
             return response()->json(['message' => 'Invalid file path.'], 422);
         }
 
-        if (! Storage::disk(self::DISK)->exists($data['path'])) {
+        if (! $this->storage->exists($data['path'])) {
             return response()->json(['message' => 'File not found.'], 404);
         }
 
-        Storage::disk(self::DISK)->delete($data['path']);
+        $this->storage->delete($data['path']);
 
         return response()->json(['message' => 'File deleted successfully.']);
     }

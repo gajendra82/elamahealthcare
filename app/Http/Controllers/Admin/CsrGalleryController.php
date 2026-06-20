@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CsrGallery;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CsrGalleryController extends Controller
 {
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
+
     public function index(Request $request): JsonResponse
     {
         $items = CsrGallery::query()
@@ -29,7 +33,7 @@ class CsrGalleryController extends Controller
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        $data['image'] = $request->file('image')->store('csr', 'public');
+        $data['image'] = $this->storage->store($request->file('image'), 'csr');
         $data['sort_order'] = $data['sort_order'] ?? 0;
         $data['is_active'] = $data['is_active'] ?? true;
 
@@ -57,8 +61,8 @@ class CsrGalleryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($csrGallery->image);
-            $data['image'] = $request->file('image')->store('csr', 'public');
+            $this->storage->delete($csrGallery->image);
+            $data['image'] = $this->storage->store($request->file('image'), 'csr');
         }
 
         $csrGallery->update($data);
@@ -71,7 +75,7 @@ class CsrGalleryController extends Controller
 
     public function destroy(CsrGallery $csrGallery): JsonResponse
     {
-        Storage::disk('public')->delete($csrGallery->image);
+        $this->storage->delete($csrGallery->image);
         $csrGallery->delete();
 
         return response()->json(['message' => 'CSR gallery item deleted successfully.']);

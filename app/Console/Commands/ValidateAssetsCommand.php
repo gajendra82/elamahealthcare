@@ -10,6 +10,7 @@ use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Services\AssetService;
+use App\Services\StorageService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -17,9 +18,9 @@ class ValidateAssetsCommand extends Command
 {
     protected $signature = 'app:validate-assets';
 
-    protected $description = 'Validate images, Vite build output, storage link, and settings asset paths';
+    protected $description = 'Validate images, Vite build output, upload storage, and settings asset paths';
 
-    public function handle(AssetService $assets): int
+    public function handle(AssetService $assets, StorageService $storage): int
     {
         $this->info('Elama Healthcare — Asset Validation Report');
         $this->newLine();
@@ -27,7 +28,7 @@ class ValidateAssetsCommand extends Command
         $issues = 0;
 
         $issues += $this->checkViteBuild();
-        $issues += $this->checkStorageLink();
+        $issues += $this->checkUploadStorage($storage);
         $issues += $this->checkConfiguredAssets($assets);
         $issues += $this->checkDatabaseAssets($assets);
         $issues += $this->checkBladeReferences($assets);
@@ -76,20 +77,36 @@ class ValidateAssetsCommand extends Command
         return $issues;
     }
 
-    private function checkStorageLink(): int
+    private function checkUploadStorage(StorageService $storage): int
     {
-        $this->line('<fg=cyan>Storage symlink</>');
+        $this->line('<fg=cyan>Upload storage</>');
 
         $issues = 0;
-        $link = public_path('storage');
 
-        if (! file_exists($link)) {
-            $this->error('  ✗ public/storage missing — run: php artisan storage:link');
-            $issues++;
-        } elseif (! is_link($link) && ! is_dir($link)) {
-            $this->warn('  ! public/storage exists but is not a symlink');
+        if ($storage->isSharedHosting()) {
+            $this->info('  ✓ Shared hosting detected');
+
+            if (! is_dir($storage->uploadsDirectory())) {
+                $storage->ensureUploadsDirectory();
+            }
+
+            if (is_dir($storage->uploadsDirectory()) && is_writable($storage->uploadsDirectory())) {
+                $this->info('  ✓ Upload directory available');
+            } else {
+                $this->error('  ✗ public/uploads is missing or not writable');
+                $issues++;
+            }
+
+            $this->info('  ✓ Storage fallback active');
         } else {
-            $this->info('  ✓ public/storage available');
+            if (is_dir(storage_path('app/public'))) {
+                $this->info('  ✓ Local storage directory available');
+            } else {
+                $this->error('  ✗ storage/app/public missing');
+                $issues++;
+            }
+
+            $this->info('  ✓ Storage fallback active');
         }
 
         $this->newLine();

@@ -4,6 +4,10 @@ namespace App\Services;
 
 class AssetService
 {
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
+
     public function url(?string $path, string $placeholder = 'default'): string
     {
         if ($path && $this->isAbsoluteUrl($path)) {
@@ -11,14 +15,14 @@ class AssetService
         }
 
         if ($path && $this->exists($path)) {
-            return asset($this->normalize($path));
+            return $this->storage->url($path) ?? asset($this->normalize($path));
         }
 
         $fallback = config("assets.placeholders.{$placeholder}")
             ?? config('assets.placeholders.default');
 
         if ($fallback && $this->exists($fallback)) {
-            return asset($this->normalize($fallback));
+            return $this->storage->url($fallback) ?? asset($this->normalize($fallback));
         }
 
         return asset($this->normalize($fallback ?? 'images/placeholders/default.svg'));
@@ -44,16 +48,7 @@ class AssetService
             return (bool) $path;
         }
 
-        $path = $this->normalize($path);
-
-        if (str_starts_with($path, 'storage/')) {
-            $relative = substr($path, strlen('storage/'));
-
-            return is_file(public_path($path))
-                || is_file(storage_path('app/public/'.$relative));
-        }
-
-        return is_file(public_path($path));
+        return $this->storage->exists($this->normalize($path));
     }
 
     public function normalize(string $path): string

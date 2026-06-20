@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leadership;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class LeadershipController extends Controller
 {
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
+
     public function index(Request $request): JsonResponse
     {
         $items = Leadership::query()
@@ -44,7 +48,7 @@ class LeadershipController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($leadership->photo) {
-                Storage::disk('public')->delete($leadership->photo);
+                $this->storage->delete($leadership->photo);
             }
             $data['photo'] = $this->storePhoto($request);
         }
@@ -60,7 +64,7 @@ class LeadershipController extends Controller
     public function destroy(Leadership $leadership): JsonResponse
     {
         if ($leadership->photo) {
-            Storage::disk('public')->delete($leadership->photo);
+            $this->storage->delete($leadership->photo);
         }
 
         $leadership->delete();
@@ -88,6 +92,6 @@ class LeadershipController extends Controller
             return null;
         }
 
-        return $request->file('photo')->store('leadership', 'public');
+        return $this->storage->store($request->file('photo'), 'leadership');
     }
 }

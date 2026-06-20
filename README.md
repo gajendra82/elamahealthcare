@@ -55,7 +55,6 @@ DB_PASSWORD=your_password
 
 ```bash
 php artisan migrate:fresh --seed
-php artisan storage:link
 npm run build
 ```
 
@@ -99,11 +98,12 @@ Server path example:
 composer install --no-dev --optimize-autoloader
 php artisan migrate --force
 php artisan db:seed --force
-php artisan storage:link
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
+
+Or use `./deploy.sh` from the Laravel project root (syncs `public/uploads/` to `public_html` automatically).
 
 ### 4. `.env` on production
 

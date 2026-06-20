@@ -29,13 +29,11 @@ php artisan db:seed --class=SettingSeeder --force
 
 echo "==> clear & rebuild caches"
 php artisan optimize:clear
-
-echo "==> storage link"
-if [[ -e "$ROOT/public/storage" && ! -L "$ROOT/public/storage" ]]; then
-  rm -rf "$ROOT/public/storage"
+mkdir -p "$ROOT/public/uploads"
+if [[ -d "$ROOT/storage/app/public" ]]; then
+  cp -a "$ROOT/storage/app/public/." "$ROOT/public/uploads/" 2>/dev/null || true
+  echo "    merged legacy storage/app/public into public/uploads"
 fi
-php artisan storage:link --force
-
 php artisan optimize
 
 echo "==> validate assets"
@@ -57,6 +55,7 @@ if [[ -d "$PUBLIC_HTML" ]]; then
 
   sync_dir "$ROOT/public/build" "$PUBLIC_HTML/build"
   sync_dir "$ROOT/public/images" "$PUBLIC_HTML/images"
+  sync_dir "$ROOT/public/uploads" "$PUBLIC_HTML/uploads"
   sync_dir "$ROOT/public/css" "$PUBLIC_HTML/css"
   sync_dir "$ROOT/public/js" "$PUBLIC_HTML/js"
   sync_dir "$ROOT/public/fonts" "$PUBLIC_HTML/fonts"
@@ -67,14 +66,6 @@ if [[ -d "$PUBLIC_HTML" ]]; then
       echo "    synced $file"
     fi
   done
-
-  if [[ -L "$ROOT/public/storage" ]]; then
-    mkdir -p "$PUBLIC_HTML/storage"
-    cp -a "$ROOT/storage/app/public/." "$PUBLIC_HTML/storage/"
-    echo "    synced storage (uploaded files)"
-  elif [[ -d "$ROOT/public/storage" ]]; then
-    sync_dir "$ROOT/public/storage" "$PUBLIC_HTML/storage"
-  fi
 else
   echo "==> PUBLIC_HTML not found at $PUBLIC_HTML — skipping public sync"
   echo "    Set PUBLIC_HTML=/path/to/public_html if your layout differs"

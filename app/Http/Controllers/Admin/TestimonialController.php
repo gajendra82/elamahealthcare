@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class TestimonialController extends Controller
 {
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
+
     public function index(Request $request): JsonResponse
     {
         $items = Testimonial::query()
@@ -33,7 +37,7 @@ class TestimonialController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('testimonials', 'public');
+            $data['photo'] = $this->storage->store($request->file('photo'), 'testimonials');
         }
 
         $data['rating'] = $data['rating'] ?? 5;
@@ -66,9 +70,9 @@ class TestimonialController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($testimonial->photo) {
-                Storage::disk('public')->delete($testimonial->photo);
+                $this->storage->delete($testimonial->photo);
             }
-            $data['photo'] = $request->file('photo')->store('testimonials', 'public');
+            $data['photo'] = $this->storage->store($request->file('photo'), 'testimonials');
         }
 
         $testimonial->update($data);
@@ -82,7 +86,7 @@ class TestimonialController extends Controller
     public function destroy(Testimonial $testimonial): JsonResponse
     {
         if ($testimonial->photo) {
-            Storage::disk('public')->delete($testimonial->photo);
+            $this->storage->delete($testimonial->photo);
         }
 
         $testimonial->delete();

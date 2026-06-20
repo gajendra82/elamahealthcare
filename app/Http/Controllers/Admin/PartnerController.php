@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PartnerController extends Controller
 {
+    public function __construct(
+        private readonly StorageService $storage
+    ) {}
+
     public function index(Request $request): JsonResponse
     {
         $items = Partner::query()
@@ -32,7 +36,7 @@ class PartnerController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $data['logo'] = $request->file('logo')->store('partners', 'public');
+            $data['logo'] = $this->storage->store($request->file('logo'), 'partners');
         }
 
         $data['sort_order'] = $data['sort_order'] ?? 0;
@@ -64,9 +68,9 @@ class PartnerController extends Controller
 
         if ($request->hasFile('logo')) {
             if ($partner->logo) {
-                Storage::disk('public')->delete($partner->logo);
+                $this->storage->delete($partner->logo);
             }
-            $data['logo'] = $request->file('logo')->store('partners', 'public');
+            $data['logo'] = $this->storage->store($request->file('logo'), 'partners');
         }
 
         $partner->update($data);
@@ -80,7 +84,7 @@ class PartnerController extends Controller
     public function destroy(Partner $partner): JsonResponse
     {
         if ($partner->logo) {
-            Storage::disk('public')->delete($partner->logo);
+            $this->storage->delete($partner->logo);
         }
 
         $partner->delete();

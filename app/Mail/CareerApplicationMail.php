@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\CareerApplication;
+use App\Services\StorageService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,7 +11,6 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 
 class CareerApplicationMail extends Mailable implements ShouldQueue
 {
@@ -39,12 +39,15 @@ class CareerApplicationMail extends Mailable implements ShouldQueue
 
     public function attachments(): array
     {
-        if (! Storage::disk('public')->exists($this->application->resume_path)) {
+        $storage = app(StorageService::class);
+        $path = $storage->physicalPath($this->application->resume_path);
+
+        if (! $path) {
             return [];
         }
 
         return [
-            Attachment::fromStorageDisk('public', $this->application->resume_path)
+            Attachment::fromPath($path)
                 ->as(basename($this->application->resume_path))
                 ->withMime('application/pdf'),
         ];
