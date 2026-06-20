@@ -19,7 +19,7 @@ class ProductRequest extends FormRequest
         return [
             'category_id' => ['nullable', 'exists:categories,id'],
             'category' => ['nullable', 'string', 'max:255'],
-            'product_name' => ['required', 'string', 'max:255'],
+            'product_name' => ['required', 'string', 'max:2000'],
             'composition' => ['nullable', 'string'],
             'dosage' => ['nullable', 'string', 'max:255'],
             'packaging' => ['nullable', 'string', 'max:255'],

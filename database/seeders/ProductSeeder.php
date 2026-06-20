@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\SlugHelper;
+use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -21,7 +22,6 @@ class ProductSeeder extends Seeder
         $rows = array_slice($payload['data'] ?? [], 1);
         $categorySeeder = new CategorySeeder();
         $categories = Category::query()->pluck('id', 'name');
-        $usedSlugs = [];
 
         foreach ($rows as $row) {
             $productName = trim(preg_replace('/\s+/', ' ', (string) ($row[1] ?? '')));
@@ -35,8 +35,10 @@ class ProductSeeder extends Seeder
 
             $categoryName = $categorySeeder->normalizeCategoryName($dosageForm);
             $categoryId = $categories[$categoryName] ?? null;
-            $slug = $this->uniqueSlug(Str::slug($productName), $usedSlugs);
-            $usedSlugs[] = $slug;
+            $slug = SlugHelper::unique(
+                $productName,
+                fn (string $candidate) => Product::query()->where('slug', $candidate)->exists()
+            );
 
             Product::query()->updateOrCreate(
                 ['slug' => $slug],
@@ -51,22 +53,5 @@ class ProductSeeder extends Seeder
                 ]
             );
         }
-    }
-
-    private function uniqueSlug(string $baseSlug, array $usedSlugs): string
-    {
-        if ($baseSlug === '') {
-            $baseSlug = 'product';
-        }
-
-        $slug = $baseSlug;
-        $counter = 1;
-
-        while (in_array($slug, $usedSlugs, true) || Product::query()->where('slug', $slug)->exists()) {
-            $slug = $baseSlug.'-'.$counter;
-            $counter++;
-        }
-
-        return $slug;
     }
 }

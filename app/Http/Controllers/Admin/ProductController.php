@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
+use App\Support\SlugHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -65,6 +65,8 @@ class ProductController extends Controller
     {
         if (empty($data['slug'])) {
             $data['slug'] = $this->uniqueSlug($data['product_name'], $product?->id);
+        } else {
+            $data['slug'] = SlugHelper::make($data['slug']);
         }
 
         return $data;
@@ -72,20 +74,12 @@ class ProductController extends Controller
 
     private function uniqueSlug(string $name, ?int $ignoreId = null): string
     {
-        $slug = Str::slug($name);
-        $original = $slug;
-        $counter = 1;
-
-        while (
-            Product::query()
+        return SlugHelper::unique(
+            $name,
+            fn (string $slug) => Product::query()
                 ->where('slug', $slug)
                 ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
                 ->exists()
-        ) {
-            $slug = $original.'-'.$counter;
-            $counter++;
-        }
-
-        return $slug;
+        );
     }
 }
