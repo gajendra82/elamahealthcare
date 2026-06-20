@@ -12,13 +12,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('category')->nullable();
-            $table->string('product_name');
+            $table->text('product_name');
             $table->text('composition')->nullable();
             $table->string('dosage')->nullable();
             $table->string('packaging')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->string('slug')->unique();
+            $table->string('slug', 512)->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('format')->nullable();
             $table->timestamps();

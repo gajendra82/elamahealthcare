@@ -10,6 +10,7 @@ use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Services\AssetService;
+use App\Services\HostingerService;
 use App\Services\StorageService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -20,18 +21,22 @@ class ValidateAssetsCommand extends Command
 
     protected $description = 'Validate images, Vite build output, upload storage, and settings asset paths';
 
-    public function handle(AssetService $assets, StorageService $storage): int
-    {
+    public function handle(
+        AssetService $assets,
+        StorageService $storage,
+        HostingerService $hostinger
+    ): int {
         $this->info('Elama Healthcare — Asset Validation Report');
         $this->newLine();
 
         $issues = 0;
 
         $issues += $this->checkViteBuild();
-        $issues += $this->checkUploadStorage($storage);
+        $issues += $this->checkUploadStorage($storage, $hostinger);
+        $issues += $this->checkStaticDirectories($storage);
         $issues += $this->checkConfiguredAssets($assets);
         $issues += $this->checkDatabaseAssets($assets);
-        $issues += $this->checkBladeReferences($assets);
+        $issues += $this->checkBladeReferences();
 
         $this->newLine();
 
@@ -77,26 +82,29 @@ class ValidateAssetsCommand extends Command
         return $issues;
     }
 
-    private function checkUploadStorage(StorageService $storage): int
+    private function checkUploadStorage(StorageService $storage, HostingerService $hostinger): int
     {
         $this->line('<fg=cyan>Upload storage</>');
 
         $issues = 0;
 
-        if ($storage->isSharedHosting()) {
-            $this->info('  ✓ Shared hosting detected');
+        if ($hostinger->isHostinger()) {
+            $this->info('  ✓ Hostinger Shared Hosting detected');
 
-            if (! is_dir($storage->uploadsDirectory())) {
-                $storage->ensureUploadsDirectory();
+            if ($hostinger->symlinkUnavailable()) {
+                $this->info('  ✓ Symlink unavailable');
             }
 
+            $storage->ensureUploadsDirectory();
+
             if (is_dir($storage->uploadsDirectory()) && is_writable($storage->uploadsDirectory())) {
-                $this->info('  ✓ Upload directory available');
+                $this->info('  ✓ Upload directory exists');
             } else {
                 $this->error('  ✗ public/uploads is missing or not writable');
                 $issues++;
             }
 
+            $this->info('  ✓ Using uploads directory');
             $this->info('  ✓ Storage fallback active');
         } else {
             if (is_dir(storage_path('app/public'))) {
@@ -106,7 +114,27 @@ class ValidateAssetsCommand extends Command
                 $issues++;
             }
 
+            $storage->ensureUploadsDirectory();
             $this->info('  ✓ Storage fallback active');
+        }
+
+        $this->newLine();
+
+        return $issues;
+    }
+
+    private function checkStaticDirectories(StorageService $storage): int
+    {
+        $this->line('<fg=cyan>Static assets</>');
+
+        $issues = 0;
+        $images = $storage->staticImagesDirectory();
+
+        if (is_dir($images)) {
+            $this->info('  ✓ images directory exists');
+        } else {
+            $this->error('  ✗ public/images missing');
+            $issues++;
         }
 
         $this->newLine();
@@ -187,7 +215,7 @@ class ValidateAssetsCommand extends Command
         return $issues;
     }
 
-    private function checkBladeReferences(AssetService $assets): int
+    private function checkBladeReferences(): int
     {
         $this->line('<fg=cyan>Blade hardcoded image paths</>');
 
@@ -198,6 +226,7 @@ class ValidateAssetsCommand extends Command
             'images/about/about-' => 'Use config("assets.about_*") or asset_url()',
             'images/csr/csr-' => 'Use CsrGallery model or config("assets.csr")',
             'images/products/default.jpg' => 'Use asset_url() with product placeholder',
+            'public/storage' => 'Use public/uploads on shared hosting',
         ];
 
         $files = File::allFiles(resource_path('views'));

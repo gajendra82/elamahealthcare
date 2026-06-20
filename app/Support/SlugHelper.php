@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 class SlugHelper
 {
-    public const MAX_LENGTH = 255;
+    public const MAX_LENGTH = 512;
 
     public static function make(string $value, int $maxLength = self::MAX_LENGTH): string
     {

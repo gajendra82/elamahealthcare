@@ -13,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(StorageService::class);
+        $this->app->singleton(HostingerService::class);
+        $this->app->singleton(StorageService::class);
         $this->app->singleton(AssetService::class);
     }
 

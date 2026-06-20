@@ -52,9 +52,7 @@ class ProductSeeder extends Seeder
                 [
                     'category_id' => $categoryId,
                     'category' => $categoryName,
-                    'product_name' => $this->truncateProductNames
-                        ? mb_substr($productName, 0, 255)
-                        : $productName,
+                    'product_name' => $productName,
                     'composition' => $productName,
                     'dosage' => $dosageForm,
                     'description' => $productName,

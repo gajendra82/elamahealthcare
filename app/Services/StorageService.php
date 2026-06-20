@@ -14,22 +14,13 @@ class StorageService
 
     private const UPLOADS_PUBLIC_DIR = 'uploads';
 
-    private ?bool $sharedHosting = null;
+    public function __construct(
+        private readonly HostingerService $hostinger
+    ) {}
 
     public function isSharedHosting(): bool
     {
-        if ($this->sharedHosting !== null) {
-            return $this->sharedHosting;
-        }
-
-        if (env('SHARED_HOSTING') !== null) {
-            return $this->sharedHosting = filter_var(env('SHARED_HOSTING'), FILTER_VALIDATE_BOOLEAN);
-        }
-
-        $disabled = array_filter(array_map('trim', explode(',', (string) ini_get('disable_functions'))));
-
-        return $this->sharedHosting = in_array('symlink', $disabled, true)
-            || in_array('link', $disabled, true);
+        return $this->hostinger->isHostinger();
     }
 
     public function diskName(): string
@@ -49,7 +40,12 @@ class StorageService
 
     public function uploadsDirectory(): string
     {
-        return public_path(self::UPLOADS_PUBLIC_DIR);
+        return $this->hostinger->uploadsPath();
+    }
+
+    public function staticImagesDirectory(): string
+    {
+        return $this->hostinger->staticImagesPath();
     }
 
     public function ensureUploadsDirectory(): void
@@ -98,7 +94,7 @@ class StorageService
 
         $path = $this->normalizeStoredPath($path);
 
-        if (str_starts_with($path, 'images/')) {
+        if ($this->isStaticAsset($path)) {
             return is_file(public_path($path));
         }
 
@@ -123,7 +119,7 @@ class StorageService
 
         $normalized = $this->normalizeStoredPath($path);
 
-        if (str_starts_with($normalized, 'images/')) {
+        if ($this->isStaticAsset($normalized)) {
             return asset($normalized);
         }
 
@@ -135,8 +131,8 @@ class StorageService
             return asset($normalized);
         }
 
-        if (is_file(storage_path('app/public/'.$normalized))) {
-            return asset($this->publicUrlPrefix().'/'.$normalized);
+        if (is_file(storage_path('app/public/'.$normalized)) && ! $this->isSharedHosting()) {
+            return asset('storage/'.$normalized);
         }
 
         return asset($this->publicUrlPrefix().'/'.$normalized);
@@ -168,6 +164,11 @@ class StorageService
         return $path;
     }
 
+    public function isStaticAsset(string $path): bool
+    {
+        return str_starts_with($path, config('deployment.static_images', 'images').'/');
+    }
+
     /**
      * @return array<int, string>
      */
@@ -175,14 +176,13 @@ class StorageService
     {
         $path = $this->normalizeStoredPath($path);
 
-        if (str_starts_with($path, 'images/')) {
+        if ($this->isStaticAsset($path)) {
             return [public_path($path)];
         }
 
         return array_values(array_unique([
             public_path(self::UPLOADS_PUBLIC_DIR.'/'.$path),
             storage_path('app/public/'.$path),
-            public_path('storage/'.$path),
             public_path($path),
         ]));
     }
