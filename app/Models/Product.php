@@ -18,6 +18,7 @@ class Product extends Model
         'description',
         'image',
         'slug',
+        'sort_order',
         'status',
         'format',
     ];
@@ -37,6 +38,11 @@ class Product extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', 'active');
+    }
+
+    public function scopeOrdered(Builder $query): Builder
+    {
+        return $query->orderBy('sort_order')->orderBy('product_name');
     }
 
     public function scopeAlphabetical(Builder $query): Builder

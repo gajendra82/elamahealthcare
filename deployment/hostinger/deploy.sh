@@ -89,9 +89,12 @@ run php artisan optimize:clear
 log "Run migrations"
 run php artisan migrate --force
 
-log "Refresh canonical settings, banners, and leadership photos"
+log "Refresh canonical settings, banners, categories, products, and leadership"
 run php artisan db:seed --class=SettingSeeder --force
+run php artisan db:seed --class=CsrGallerySeeder --force
 run php artisan db:seed --class=BannerSeeder --force
+run php artisan db:seed --class=CategorySeeder --force
+run php artisan db:seed --class=ProductSeeder --force
 run php artisan db:seed --class=LeadershipSeeder --force
 
 log "Ensure upload directories"

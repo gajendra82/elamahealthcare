@@ -62,29 +62,14 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-section-heading label="Markets" title="Countries We Serve" />
         <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            @foreach([
-                ['name' => 'Myanmar', 'region' => 'Southeast Asia'],
-                ['name' => 'Cambodia', 'region' => 'Southeast Asia'],
-                ['name' => 'Vietnam', 'region' => 'Southeast Asia'],
-                ['name' => 'Philippines', 'region' => 'Southeast Asia'],
-                ['name' => 'Nepal', 'region' => 'South Asia'],
-                ['name' => 'Kenya', 'region' => 'East Africa'],
-                ['name' => 'Afghanistan', 'region' => 'Central Asia'],
-                ['name' => 'Sudan', 'region' => 'North Africa'],
-                ['name' => 'Angola', 'region' => 'Southern Africa'],
-                ['name' => 'Mozambique', 'region' => 'Southern Africa'],
-                ['name' => 'Cameroon', 'region' => 'Central Africa'],
-                ['name' => 'Ivory Coast', 'region' => 'West Africa'],
-                ['name' => 'Guinea', 'region' => 'West Africa'],
-                ['name' => 'Congo', 'region' => 'Central Africa'],
-            ] as $country)
+            @foreach(\App\Support\GlobalPresence::allCountries() as $country)
                 <div class="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-4 transition-all hover:border-secondary hover:shadow-soft" data-aos="fade-up">
                     <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10 text-secondary">
                         <i data-lucide="map-pin" class="h-4 w-4"></i>
                     </span>
                     <div>
                         <p class="font-medium text-dark">{{ $country['name'] }}</p>
-                        <p class="text-xs text-muted">{{ $country['region'] }}</p>
+                        <p class="text-xs text-muted">{{ $country['region'] }}@if($country['type'] === 'hq') · HQ @endif</p>
                     </div>
                 </div>
             @endforeach

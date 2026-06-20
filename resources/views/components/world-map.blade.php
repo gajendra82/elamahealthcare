@@ -1,65 +1,63 @@
 @props(['compact' => false, 'showList' => true])
 
-<div x-data="worldMap" {{ $attributes->merge(['class' => 'relative']) }}>
+@php
+    $countries = \App\Support\GlobalPresence::countriesByCode();
+@endphp
+
+<div
+    x-data="worldMapPanel"
+    data-world-map
+    data-countries='@json($countries)'
+    {{ $attributes->merge(['class' => 'relative']) }}
+>
     <div @class([
         'grid gap-8',
         'lg:grid-cols-3' => $showList && !$compact,
         'grid-cols-1' => $compact || !$showList,
     ])>
         <div @class(['relative', 'lg:col-span-2' => $showList && !$compact])>
-            <div class="glass-card overflow-hidden rounded-2xl p-4 lg:p-6">
-                <svg viewBox="0 0 1000 500" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-                    {{-- Simplified world map background --}}
-                    <rect width="1000" height="500" fill="#E2E8F0" rx="8"/>
+            <div class="glass-card world-map-shell overflow-hidden rounded-2xl p-3 lg:p-4">
+                <div class="world-map-canvas w-full" style="min-height: {{ $compact ? '280px' : '420px' }};"></div>
 
-                    {{-- Africa --}}
-                    <path class="map-country" :class="{ 'active': activeCountry === 'AO' }" @click="select('AO')" @mouseenter="activeCountry = 'AO'" @mouseleave="activeCountry = null" data-country="AO" d="M480,280 L500,260 L520,270 L530,300 L510,330 L490,320 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'MZ' }" @click="select('MZ')" @mouseenter="activeCountry = 'MZ'" @mouseleave="activeCountry = null" d="M510,340 L540,330 L550,360 L530,380 L510,370 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'KE' }" @click="select('KE')" @mouseenter="activeCountry = 'KE'" @mouseleave="activeCountry = null" d="M530,290 L550,280 L560,300 L545,315 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'SD' }" @click="select('SD')" @mouseenter="activeCountry = 'SD'" @mouseleave="activeCountry = null" d="M490,240 L520,230 L530,260 L500,270 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'CM' }" @click="select('CM')" @mouseenter="activeCountry = 'CM'" @mouseleave="activeCountry = null" d="M460,280 L480,270 L490,295 L470,305 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'CI' }" @click="select('CI')" @mouseenter="activeCountry = 'CI'" @mouseleave="activeCountry = null" d="M420,280 L440,270 L450,295 L430,305 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'GN' }" @click="select('GN')" @mouseenter="activeCountry = 'GN'" @mouseleave="activeCountry = null" d="M400,265 L420,255 L430,280 L410,290 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'CG' }" @click="select('CG')" @mouseenter="activeCountry = 'CG'" @mouseleave="activeCountry = null" d="M470,300 L500,290 L510,320 L480,330 Z" fill="#94a3b8"/>
+                <div
+                    x-show="activeCode"
+                    x-transition
+                    class="absolute bottom-5 left-5 glass-card rounded-xl px-4 py-3"
+                >
+                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Selected Market</p>
+                    <p class="font-heading text-lg font-bold text-dark" x-text="countryName(activeCode)"></p>
+                    <p class="text-xs text-muted" x-text="countryRegion(activeCode)"></p>
+                </div>
 
-                    {{-- Asia --}}
-                    <path class="map-country" :class="{ 'active': activeCountry === 'IN' }" @click="select('IN')" @mouseenter="activeCountry = 'IN'" @mouseleave="activeCountry = null" d="M620,220 L660,200 L680,240 L650,280 L620,260 Z" fill="#0B4F8C" opacity="0.6"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'MM' }" @click="select('MM')" @mouseenter="activeCountry = 'MM'" @mouseleave="activeCountry = null" d="M700,230 L730,220 L740,250 L715,265 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'KH' }" @click="select('KH')" @mouseenter="activeCountry = 'KH'" @mouseleave="activeCountry = null" d="M730,260 L750,250 L760,275 L740,285 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'VN' }" @click="select('VN')" @mouseenter="activeCountry = 'VN'" @mouseleave="activeCountry = null" d="M750,240 L770,220 L780,270 L760,290 L750,260 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'PH' }" @click="select('PH')" @mouseenter="activeCountry = 'PH'" @mouseleave="activeCountry = null" d="M790,260 L810,240 L820,280 L800,300 L790,270 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'NP' }" @click="select('NP')" @mouseenter="activeCountry = 'NP'" @mouseleave="activeCountry = null" d="M660,210 L675,200 L685,225 L670,235 Z" fill="#94a3b8"/>
-                    <path class="map-country" :class="{ 'active': activeCountry === 'AF' }" @click="select('AF')" @mouseenter="activeCountry = 'AF'" @mouseleave="activeCountry = null" d="M620,180 L660,170 L670,200 L630,210 Z" fill="#94a3b8"/>
-
-                    {{-- Decorative dots for presence --}}
-                    <circle cx="715" cy="245" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="755" cy="265" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="770" cy="255" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="800" cy="270" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="670" cy="218" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="545" cy="300" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="510" cy="310" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="505" cy="255" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                    <circle cx="645" cy="190" r="4" fill="#5CB8E8" class="animate-pulse-soft"/>
-                </svg>
-
-                <div x-show="activeCountry" x-transition class="absolute bottom-6 left-6 glass-card rounded-xl px-4 py-3">
-                    <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Active Market</p>
-                    <p class="font-heading text-lg font-bold text-dark" x-text="getCountryName(activeCountry)"></p>
+                <div class="mt-3 flex flex-wrap gap-4 px-1 text-xs text-muted">
+                    <span class="inline-flex items-center gap-2">
+                        <span class="h-3 w-3 rounded-full bg-[#062F54]"></span> Headquarters
+                    </span>
+                    <span class="inline-flex items-center gap-2">
+                        <span class="h-3 w-3 rounded-full bg-[#0B4F8C]"></span> Active Markets
+                    </span>
                 </div>
             </div>
         </div>
 
         @if($showList)
-            <div @class(['space-y-3', 'max-h-80 overflow-y-auto lg:max-h-none' => $compact])>
-                <h3 class="font-heading text-lg font-semibold text-dark mb-4">Our Global Footprint</h3>
-                @foreach(['Myanmar', 'Cambodia', 'Vietnam', 'Philippines', 'Nepal', 'Kenya', 'Afghanistan', 'Sudan', 'Angola', 'Mozambique', 'Cameroon', 'Ivory Coast', 'Guinea', 'Congo'] as $country)
-                    <div class="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3 transition-colors hover:border-secondary hover:bg-secondary/5">
+            <div @class(['space-y-3', 'max-h-80 overflow-y-auto lg:max-h-[460px]' => $compact])>
+                <h3 class="font-heading mb-4 text-lg font-semibold text-dark">Our Global Footprint</h3>
+                @foreach($countries as $code => $country)
+                    <button
+                        type="button"
+                        @click="selectCountry('{{ $code }}')"
+                        :class="activeCode === '{{ $code }}' ? 'border-secondary bg-secondary/5 shadow-soft' : 'border-border bg-white hover:border-secondary hover:bg-secondary/5'"
+                        class="flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all"
+                    >
                         <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                             <i data-lucide="map-pin" class="h-4 w-4"></i>
                         </span>
-                        <span class="font-medium text-dark">{{ $country }}</span>
-                    </div>
+                        <span class="min-w-0 flex-1">
+                            <span class="block font-medium text-dark">{{ $country['name'] }}</span>
+                            <span class="block text-xs text-muted">{{ $country['region'] }}@if($country['type'] === 'hq') · HQ @endif</span>
+                        </span>
+                    </button>
                 @endforeach
             </div>
         @endif

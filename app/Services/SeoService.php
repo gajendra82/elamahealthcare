@@ -86,9 +86,9 @@ class SeoService
             '@context' => 'https://schema.org',
             '@type' => 'Product',
             'name' => $product['name'] ?? $product['product_name'] ?? '',
-            'description' => $product['description'] ?? '',
+            'description' => $product['description'] ?? $product['name'] ?? '',
             'category' => $product['category'] ?? '',
-            'image' => $product['image'] ?? asset_url(null, 'product'),
+            'image' => $product['image'] ?? asset_url(config('assets.logo'), 'logo'),
             'brand' => [
                 '@type' => 'Brand',
                 'name' => $this->settingService->get('company_name', 'Elama Healthcare Solutions Pvt. Ltd.'),

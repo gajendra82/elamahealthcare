@@ -11,26 +11,28 @@ use Illuminate\Support\Facades\Schema;
 
 class ProductSeeder extends Seeder
 {
-    private bool $truncateProductNames = false;
-
     public function run(): void
     {
         $this->prepareProductColumns();
 
-        $path = base_path('_source/products_raw.json');
+        $rows = self::loadRowsFromSource();
 
-        if (! file_exists($path)) {
-            $this->command?->warn('Product source file not found: _source/products_raw.json');
+        if ($rows === []) {
+            $this->command?->warn('No product rows found in _source/Product list.xlsx or _source/products_raw.json');
 
             return;
         }
 
-        $payload = json_decode(file_get_contents($path), true);
-        $rows = array_slice($payload['data'] ?? [], 1);
-        $categorySeeder = new CategorySeeder();
+        if (Category::query()->count() === 0) {
+            $this->call(CategorySeeder::class);
+        }
+
         $categories = Category::query()->pluck('id', 'name');
+        $categorySeeder = new CategorySeeder();
+        $importedSlugs = [];
 
         foreach ($rows as $row) {
+            $serial = is_numeric($row[0] ?? null) ? (int) $row[0] : null;
             $productName = trim(preg_replace('/\s+/', ' ', (string) ($row[1] ?? '')));
             $dosageForm = trim((string) ($row[2] ?? ''));
             $rawStatus = trim((string) ($row[3] ?? ''));
@@ -53,19 +55,41 @@ class ProductSeeder extends Seeder
                     'category_id' => $categoryId,
                     'category' => $categoryName,
                     'product_name' => $productName,
-                    'composition' => $productName,
+                    'composition' => null,
                     'dosage' => $dosageForm,
-                    'description' => $productName,
-                    'status' => strcasecmp($rawStatus, 'Completed') === 0 ? 'active' : 'inactive',
-                    'format' => $format,
+                    'packaging' => null,
+                    'description' => null,
+                    'image' => null,
+                    'sort_order' => $serial,
+                    'status' => 'active',
+                    'format' => $format !== '' ? $format : null,
                 ]
             );
+
+            $importedSlugs[] = $slug;
         }
+
+        Product::query()->whereNotIn('slug', $importedSlugs)->delete();
+
+        $this->command?->info('Imported '.count($importedSlugs).' products from Pharma Ready Dossiers list.');
     }
 
-    /**
-     * Expand VARCHAR columns on MySQL before importing long pharmaceutical product names.
-     */
+    public static function loadRowsFromSource(): array
+    {
+        $jsonPath = base_path('_source/products_raw.json');
+
+        if (! file_exists($jsonPath)) {
+            return [];
+        }
+
+        $payload = json_decode(file_get_contents($jsonPath), true);
+
+        return array_values(array_filter(
+            array_slice($payload['data'] ?? [], 1),
+            fn (array $row) => trim((string) ($row[1] ?? '')) !== ''
+        ));
+    }
+
     private function prepareProductColumns(): void
     {
         if (Schema::getConnection()->getDriverName() !== 'mysql') {
@@ -76,14 +100,8 @@ class ProductSeeder extends Seeder
             DB::statement('ALTER TABLE `products` MODIFY `product_name` TEXT NOT NULL');
             DB::statement('ALTER TABLE `products` MODIFY `composition` TEXT NULL');
             DB::statement('ALTER TABLE `products` MODIFY `description` TEXT NULL');
-
-            $this->command?->info('Products table columns expanded to TEXT.');
         } catch (\Throwable $exception) {
-            $this->truncateProductNames = true;
-            $this->command?->warn(
-                'Could not alter products table ('.$exception->getMessage().'). '.
-                'Long product names will be truncated to 255 characters.'
-            );
+            $this->command?->warn('Could not alter products table: '.$exception->getMessage());
         }
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Repositories\CategoryRepository;
 use App\Services\ProductService;
 use App\Services\SeoService;
+use App\Support\CategorySlug;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -18,28 +20,23 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->string('search')->toString() ?: null;
-        $category = $request->input('category');
-        $alphabetical = $request->boolean('alpha', true);
+        $category = CategorySlug::resolve($request->input('category'));
 
-        $products = $this->productService->list(
-            search: $search,
-            category: $category,
-            alphabetical: $alphabetical,
-            perPage: 24
-        );
+        $groupedProducts = $this->productService->groupedByCategory($search, $category);
+        $totalProducts = $groupedProducts->flatten()->count();
 
         return view('pages.products.index', [
             'seo' => $this->seoService->forPage(
                 'Products | Elama Healthcare',
-                'Explore our diversified pharmaceutical portfolio across key therapeutic segments.'
+                'Explore our pharma ready dossiers and generic medicine portfolio across key dosage forms.'
             ),
-            'products' => $this->productService->formatCollection($products->getCollection()),
-            'productsPaginator' => $products,
+            'banners' => Banner::query()->active()->ordered()->get(),
+            'groupedProducts' => $groupedProducts,
+            'totalProducts' => $totalProducts,
             'categories' => $this->categoryRepository->activeWithProductCounts(),
             'filters' => [
                 'search' => $search,
                 'category' => $category,
-                'alpha' => $alphabetical,
             ],
         ]);
     }
@@ -51,21 +48,17 @@ class ProductController extends Controller
         abort_if(! $product, 404);
 
         $formatted = $this->productService->formatForView($product);
-        $related = $this->productService->formatCollection(
-            $this->productService->relatedProducts($product)
-        );
 
         return view('pages.products.show', [
             'seo' => $this->seoService->forPage(
                 "{$product->product_name} | Elama Healthcare",
-                $product->description ?: $product->product_name,
-                $product->image,
+                $product->product_name,
+                null,
                 route('products.show', $product->slug),
                 'product',
                 $this->seoService->productSchema($formatted)
             ),
             'product' => $formatted,
-            'related' => $related,
         ]);
     }
 }

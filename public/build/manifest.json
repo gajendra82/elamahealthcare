@@ -36,7 +36,7 @@
     "src": "node_modules/lightgallery/images/loading.gif"
   },
   "resources/css/app.css": {
-    "file": "assets/app-C0Ob_Zw7.css",
+    "file": "assets/app-CKtKVUkq.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -45,9 +45,12 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DTayNBIg.js",
+    "file": "assets/app-cM3WQTyc.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "css": [
+      "assets/app-tJ88Ngyy.css"
+    ]
   }
 }

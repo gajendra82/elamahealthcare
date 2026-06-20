@@ -1,52 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Hero Section --}}
-<section class="relative min-h-screen overflow-hidden gradient-hero">
-    <div class="hero-swiper swiper absolute inset-0 h-full w-full">
-        <div class="swiper-wrapper">
-            @forelse($banners as $banner)
-                <div class="swiper-slide relative">
-                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset_url($banner->image, 'hero') }}')"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#062F54]/95 via-[#0B4F8C]/85 to-[#1E6BB8]/50"></div>
-                </div>
-            @empty
-                @foreach(config('assets.hero_banners', []) as $slide)
-                    <div class="swiper-slide relative">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset_url($slide['path'], 'hero') }}')"></div>
-                        <div class="absolute inset-0 bg-gradient-to-r from-[#062F54]/95 via-[#0B4F8C]/85 to-[#1E6BB8]/50"></div>
-                    </div>
-                @endforeach
-            @endforelse
-        </div>
-        <div class="swiper-pagination !bottom-32"></div>
-        <div class="swiper-button-prev !text-white"></div>
-        <div class="swiper-button-next !text-white"></div>
-    </div>
+{{-- Hero Banner --}}
+<x-hero-banner-carousel :banners="$banners" />
 
-    <div class="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-24 text-center sm:px-6 lg:px-8">
-        <span class="section-label mb-6 !border-white/20 !bg-white/10 !text-accent-mint" data-aos="fade-down">Trusted Healthcare Partner</span>
-        <h1 class="font-heading text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl" data-aos="fade-up">
-            Global Healthcare Solutions<br>
-            <span class="text-accent-mint">Built on Trust, Quality & Innovation</span>
-        </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg text-white/85" data-aos="fade-up" data-aos-delay="100">
-            Delivering affordable, quality pharmaceutical products to healthcare professionals and patients worldwide.
-        </p>
-        <div class="mt-4 font-heading text-2xl font-semibold text-secondary-light sm:text-3xl" data-aos="fade-up" data-aos-delay="200">
-            <span id="typed-headline"></span>
+{{-- Feature Stats --}}
+<section class="relative z-10 -mt-10 pb-4 lg:-mt-14">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+            <x-feature-stat-card icon="fas fa-globe" title="38+ Years of Excellence" description="Trusted pharmaceutical legacy" />
+            <x-feature-stat-card icon="fas fa-pills" title="338+ Quality Products" description="Diversified portfolio" />
+            <x-feature-stat-card icon="fas fa-map-marked-alt" title="15+ Countries Worldwide" description="Global market presence" />
+            <x-feature-stat-card icon="fas fa-industry" title="WHO-GMP Approved Facilities" description="Quality manufacturing standards" />
+            <x-feature-stat-card icon="fas fa-users" title="Dedicated Team of Professionals" description="Expert pharmaceutical workforce" class="sm:col-span-2 xl:col-span-1" />
         </div>
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up" data-aos-delay="300">
-            <a href="{{ url('/about') }}" class="btn-secondary">Discover Our Story</a>
-            <a href="{{ url('/products') }}" class="btn-outline border-white text-white hover:bg-white hover:text-primary">Explore Products</a>
-        </div>
-        <a href="#about-preview" class="scroll-indicator absolute bottom-12 flex flex-col items-center gap-2 text-white/60 transition-colors hover:text-accent">
-            <span class="text-xs uppercase tracking-widest">Scroll</span>
-            <i data-lucide="chevron-down" class="h-5 w-5"></i>
-        </a>
     </div>
-
-    <x-wave-divider color="#F8FAFC" />
 </section>
 
 {{-- About Preview --}}
@@ -55,7 +23,7 @@
         <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div data-aos="fade-right">
                 <span class="section-label mb-4 inline-block">About Elama</span>
-                <h2 class="font-heading text-3xl font-bold text-dark sm:text-4xl">Global Healthcare Solutions You Can Trust</h2>
+                <h2 class="font-heading text-3xl font-bold text-dark sm:text-4xl">Global Healthcare Solutions</h2>
                 <p class="mt-6 leading-relaxed text-muted">
                     We supply affordable and quality medicines across the globe, regardless of geographic and socio-economic barriers. Through our strong manufacturing services supported with a highly qualified technical team, we build blocks to produce an organization that manufactures therapeutics for a range of diseases.
                 </p>
@@ -76,19 +44,6 @@
                     <p class="text-sm font-medium text-muted">Countries Served</p>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-{{-- Statistics --}}
-<section class="section-padding bg-white">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <x-section-heading label="Our Impact" title="Numbers That Define Us" subtitle="A global footprint built on quality, compliance, and customer commitment." />
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <x-stat-counter count="38" suffix="+" label="Years of Experience" icon="fas fa-calendar-alt" />
-            <x-stat-counter count="14" suffix="+" label="Countries Served" icon="fas fa-globe-americas" />
-            <x-stat-counter count="500" suffix="+" label="Product Portfolio" icon="fas fa-pills" />
-            <x-stat-counter count="15" suffix="%" label="R&D Workforce" icon="fas fa-flask" />
         </div>
     </div>
 </section>
@@ -121,26 +76,31 @@
 {{-- Product Categories --}}
 <section class="section-padding bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <x-section-heading label="Portfolio" title="Product Categories" subtitle="Diversified therapeutic segments spanning cardiovascular, diabetes, orthopedics, gynecology, respiratory, and oncology." />
+        <x-section-heading label="Portfolio" title="Product Categories" subtitle="Browse our pharma ready dossiers by dosage form." />
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach([
-                ['name' => 'Tablets', 'icon' => 'fas fa-tablets', 'count' => '150+'],
-                ['name' => 'Capsules', 'icon' => 'fas fa-capsules', 'count' => '80+'],
-                ['name' => 'Injectables', 'icon' => 'fas fa-syringe', 'count' => '60+'],
-                ['name' => 'Oncology', 'icon' => 'fas fa-ribbon', 'count' => '40+'],
-                ['name' => 'Ophthalmic', 'icon' => 'fas fa-eye', 'count' => '25+'],
-                ['name' => 'Liquids', 'icon' => 'fas fa-flask', 'count' => '35+'],
-                ['name' => 'Soft Gel', 'icon' => 'fas fa-circle', 'count' => '30+'],
-                ['name' => 'Hormonal', 'icon' => 'fas fa-dna', 'count' => '20+'],
-            ] as $cat)
-                <a href="{{ url('/products?category=' . strtolower($cat['name'])) }}" class="group glass-card hover-lift rounded-2xl p-6 text-center" data-aos="fade-up">
+            @php
+                $categoryIcons = [
+                    'Tablet' => 'fas fa-tablets',
+                    'Capsule' => 'fas fa-capsules',
+                    'Injection' => 'fas fa-syringe',
+                    'Drops' => 'fas fa-eye',
+                    'Topical' => 'fas fa-hand-holding-medical',
+                    'Liquid' => 'fas fa-flask',
+                    'Inhalation' => 'fas fa-wind',
+                    'Syrup' => 'fas fa-wine-bottle',
+                ];
+            @endphp
+            @forelse($categories->take(8) as $category)
+                <a href="{{ url('/products?category=' . $category->slug) }}" class="group glass-card hover-lift rounded-2xl p-6 text-center" data-aos="fade-up">
                     <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 text-primary transition-transform group-hover:scale-110">
-                        <i class="{{ $cat['icon'] }} text-2xl"></i>
+                        <i class="{{ $categoryIcons[$category->name] ?? 'fas fa-pills' }} text-2xl"></i>
                     </div>
-                    <h3 class="font-heading text-lg font-semibold text-dark">{{ $cat['name'] }}</h3>
-                    <p class="mt-1 text-sm text-secondary font-medium">{{ $cat['count'] }} Products</p>
+                    <h3 class="font-heading text-lg font-semibold text-dark">{{ $category->name }}</h3>
+                    <p class="mt-1 text-sm text-secondary font-medium">{{ $category->products_count }} Products</p>
                 </a>
-            @endforeach
+            @empty
+                <p class="col-span-full text-center text-muted">Product categories will appear after the dossier list is imported.</p>
+            @endforelse
         </div>
         <div class="mt-10 text-center">
             <a href="{{ url('/products') }}" class="btn-primary">View All Products</a>

@@ -19,7 +19,7 @@ class SettingSeeder extends Seeder
 
             ['key' => 'stat_years', 'value' => '40', 'group' => 'stats'],
             ['key' => 'stat_countries', 'value' => '15', 'group' => 'stats'],
-            ['key' => 'stat_products', 'value' => '339', 'group' => 'stats'],
+            ['key' => 'stat_products', 'value' => '338', 'group' => 'stats'],
             ['key' => 'stat_partners', 'value' => '50', 'group' => 'stats'],
             ['key' => 'stat_manufacturing_partners', 'value' => '12', 'group' => 'stats'],
 

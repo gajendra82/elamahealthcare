@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class ProductService
 {
@@ -22,6 +23,11 @@ class ProductService
         return $this->productRepository->search($search, $category, $alphabetical, $perPage);
     }
 
+    public function groupedByCategory(?string $search = null, int|string|null $category = null): SupportCollection
+    {
+        return $this->productRepository->groupedByCategory($search, $category);
+    }
+
     public function findBySlug(string $slug): ?Product
     {
         return $this->productRepository->findBySlug($slug);
@@ -36,15 +42,10 @@ class ProductService
     {
         return [
             'id' => $product->id,
+            'serial' => $product->sort_order,
             'name' => $product->product_name,
             'category' => $product->categoryRelation?->name ?? $product->category,
-            'strength' => $product->dosage,
-            'description' => $product->description ?: $product->product_name,
-            'composition' => $product->composition,
-            'packaging' => $product->packaging,
-            'format' => $product->format,
-            'image' => asset_url($product->image, 'product'),
-            'image_path' => $product->image,
+            'dosage_form' => $product->dosage,
             'url' => route('products.show', $product->slug),
         ];
     }

@@ -17,7 +17,7 @@
     <x-vite-assets />
     @stack('styles')
 </head>
-<body class="font-body bg-background text-dark antialiased">
+<body class="font-body bg-background text-dark antialiased" data-header-light="true" data-header-solid="true">
     {{-- Flash Toast --}}
     @if(session('success') || session('error') || session('message'))
         <div
@@ -41,20 +41,20 @@
     {{-- Header --}}
     <header
         x-data="{ ...headerScroll(), ...mobileMenu() }"
-        :class="scrolled ? 'bg-white/95 shadow-soft backdrop-blur-md py-3' : 'bg-transparent py-5'"
+        :class="(scrolled || headerSolid) ? 'bg-white/95 shadow-soft backdrop-blur-md py-3' : 'bg-transparent py-5'"
         class="fixed left-0 right-0 top-0 z-50 transition-all duration-300"
     >
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <a href="{{ url('/') }}" class="flex items-center gap-3">
-                <x-logo class="sm:h-12" />
+            <a href="{{ url('/') }}" class="flex shrink-0 items-center">
+                <x-logo />
             </a>
 
             {{-- Desktop Nav --}}
             <nav class="hidden items-center gap-1 xl:flex">
                 {{-- About Mega Menu --}}
                 <div class="group relative">
-                    <button :class="scrolled ? 'text-dark' : 'text-white'" class="nav-link flex items-center gap-1 px-4 py-2">
-                        About <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    <button :class="(scrolled || headerSolid) ? 'text-dark' : 'text-white'" class="nav-link flex items-center gap-1 px-4 py-2">
+                        About Us <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </button>
                     <div class="invisible absolute left-0 top-full z-50 w-64 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
                         <div class="glass-card rounded-2xl p-4 shadow-card">
@@ -68,7 +68,7 @@
 
                 {{-- Services Mega Menu --}}
                 <div class="group relative">
-                    <button :class="scrolled ? 'text-dark' : 'text-white'" class="nav-link flex items-center gap-1 px-4 py-2">
+                    <button :class="(scrolled || headerSolid) ? 'text-dark' : 'text-white'" class="nav-link flex items-center gap-1 px-4 py-2">
                         Services <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </button>
                     <div class="invisible absolute left-0 top-full z-50 w-80 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
@@ -84,34 +84,42 @@
 
                 {{-- Products Mega Menu --}}
                 <div class="group relative">
-                    <button :class="scrolled ? 'text-dark' : 'text-white'" class="nav-link flex items-center gap-1 px-4 py-2">
+                    <button :class="(scrolled || headerSolid) ? 'text-dark' : 'text-white'" class="nav-link flex items-center gap-1 px-4 py-2">
                         Products <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </button>
                     <div class="invisible absolute left-0 top-full z-50 w-80 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
                         <div class="glass-card rounded-2xl p-4 shadow-card">
                             <a href="{{ url('/products') }}" class="block rounded-xl px-4 py-3 text-sm font-medium text-dark hover:bg-primary/5">All Products</a>
                             <div class="my-2 border-t border-border"></div>
-                            @foreach(['Tablets', 'Capsules', 'Injectables', 'Oncology', 'Ophthalmic', 'Liquids'] as $cat)
-                                <a href="{{ url('/products?category=' . strtolower($cat)) }}" class="block rounded-xl px-4 py-2 text-sm text-muted hover:bg-primary/5 hover:text-primary">{{ $cat }}</a>
+                            @foreach([
+                                ['name' => 'Tablets', 'slug' => 'tablet'],
+                                ['name' => 'Capsules', 'slug' => 'capsule'],
+                                ['name' => 'Injectables', 'slug' => 'injection'],
+                                ['name' => 'Drops', 'slug' => 'drops'],
+                                ['name' => 'Syrup', 'slug' => 'syrup'],
+                                ['name' => 'Liquids', 'slug' => 'liquid'],
+                            ] as $cat)
+                                <a href="{{ url('/products?category=' . $cat['slug']) }}" class="block rounded-xl px-4 py-2 text-sm text-muted hover:bg-primary/5 hover:text-primary">{{ $cat['name'] }}</a>
                             @endforeach
                         </div>
                     </div>
                 </div>
 
-                <a href="{{ url('/careers') }}" :class="scrolled ? 'text-dark' : 'text-white'" class="nav-link px-4 py-2">Careers</a>
-                <a href="{{ url('/contact') }}" :class="scrolled ? 'text-dark' : 'text-white'" class="nav-link px-4 py-2">Contact</a>
+                <a href="{{ url('/careers') }}" :class="(scrolled || headerSolid) ? 'text-dark' : 'text-white'" class="nav-link px-4 py-2">Careers</a>
+                <a href="{{ url('/contact') }}" :class="(scrolled || headerSolid) ? 'text-dark' : 'text-white'" class="nav-link px-4 py-2">Contact Us</a>
             </nav>
 
             <div class="flex items-center gap-3">
-                <a href="{{ url('/products') }}" :class="scrolled ? 'text-dark hover:text-primary' : 'text-white hover:text-accent'" class="hidden p-2 transition-colors sm:block" aria-label="Search Products">
+                <a href="{{ url('/products') }}" :class="(scrolled || headerSolid) ? 'text-dark hover:text-primary' : 'text-white hover:text-accent'" class="hidden p-2 transition-colors sm:block" aria-label="Search Products">
                     <i data-lucide="search" class="h-5 w-5"></i>
                 </a>
                 <a href="{{ url('/contact') }}" class="btn-primary hidden text-sm !py-2.5 !px-5 sm:inline-flex">
                     Contact Us
+                    <i data-lucide="arrow-right" class="h-4 w-4"></i>
                 </a>
                 <button
                     @click="toggle()"
-                    :class="scrolled ? 'text-dark' : 'text-white'"
+                    :class="(scrolled || headerSolid) ? 'text-dark' : 'text-white'"
                     class="rounded-lg p-2 xl:hidden"
                     aria-label="Toggle menu"
                 >
@@ -169,7 +177,7 @@
             <div class="grid gap-12 lg:grid-cols-4">
                 <div class="lg:col-span-1">
                     <a href="{{ url('/') }}">
-                        <x-logo class="h-14 bg-white p-1.5" />
+                        <x-logo />
                     </a>
                     <p class="mt-4 text-sm leading-relaxed text-white/70">
                         Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe.

@@ -3,8 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use App\Support\CategorySlug;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class ProductRepository
 {
@@ -14,22 +16,26 @@ class ProductRepository
         bool $alphabetical = true,
         int $perPage = 24
     ): LengthAwarePaginator {
-        $query = Product::query()
-            ->with('categoryRelation')
-            ->active()
-            ->search($search);
-
-        if ($category !== null && $category !== '' && $category !== 'all') {
-            $query->inCategory($category);
-        }
+        $query = $this->baseQuery($search, $category);
 
         if ($alphabetical) {
             $query->alphabetical();
         } else {
-            $query->latest();
+            $query->ordered();
         }
 
         return $query->paginate($perPage)->withQueryString();
+    }
+
+    public function groupedByCategory(?string $search = null, int|string|null $category = null): SupportCollection
+    {
+        $products = $this->baseQuery($search, $category)
+            ->ordered()
+            ->get();
+
+        return $products->groupBy(function (Product $product) {
+            return $product->categoryRelation?->name ?? $product->category ?? 'Other';
+        })->sortKeys();
     }
 
     public function findBySlug(string $slug): ?Product
@@ -60,5 +66,19 @@ class ProductRepository
     public function countActive(): int
     {
         return Product::query()->active()->count();
+    }
+
+    private function baseQuery(?string $search, int|string|null $category)
+    {
+        $query = Product::query()
+            ->with('categoryRelation')
+            ->active()
+            ->search($search);
+
+        if ($category !== null && $category !== '' && $category !== 'all') {
+            $query->inCategory(CategorySlug::resolve((string) $category) ?? $category);
+        }
+
+        return $query;
     }
 }

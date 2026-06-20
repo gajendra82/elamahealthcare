@@ -16,8 +16,7 @@ class CategorySeeder extends Seeder
             return;
         }
 
-        $payload = json_decode(file_get_contents($path), true);
-        $rows = array_slice($payload['data'] ?? [], 1);
+        $rows = ProductSeeder::loadRowsFromSource();
         $normalized = [];
 
         foreach ($rows as $row) {

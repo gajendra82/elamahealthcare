@@ -1,6 +1,6 @@
 @props(['items' => []])
 
-<nav aria-label="Breadcrumb" class="mb-8" data-aos="fade-down">
+<nav aria-label="Breadcrumb" {{ $attributes->merge(['class' => 'mb-8']) }} data-aos="fade-down">
     <ol class="flex flex-wrap items-center gap-2 text-sm">
         <li>
             <a href="{{ url('/') }}" class="text-muted transition-colors hover:text-primary">

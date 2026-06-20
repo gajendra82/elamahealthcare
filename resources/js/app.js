@@ -10,6 +10,7 @@ import lightGallery from 'lightgallery';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 import { createIcons, icons } from 'lucide';
+import { initWorldMaps } from './world-map';
 
 window.Alpine = Alpine;
 
@@ -31,37 +32,54 @@ Alpine.data('mobileMenu', () => ({
 
 Alpine.data('headerScroll', () => ({
     scrolled: false,
+    headerSolid: false,
     init() {
-        this.scrolled = window.scrollY > 50;
-        window.addEventListener('scroll', () => {
-            this.scrolled = window.scrollY > 50;
-        });
+        const headerLight = document.body.dataset.headerLight === 'true';
+        this.headerSolid = document.body.dataset.headerSolid === 'true';
+        const update = () => {
+            this.scrolled = headerLight || window.scrollY > 50;
+        };
+
+        update();
+        window.addEventListener('scroll', update);
     },
 }));
 
-Alpine.data('worldMap', () => ({
-    activeCountry: null,
-    countries: {
-        MM: 'Myanmar',
-        KH: 'Cambodia',
-        VN: 'Vietnam',
-        PH: 'Philippines',
-        NP: 'Nepal',
-        KE: 'Kenya',
-        AF: 'Afghanistan',
-        SD: 'Sudan',
-        AO: 'Angola',
-        MZ: 'Mozambique',
-        CM: 'Cameroon',
-        CI: 'Ivory Coast',
-        GN: 'Guinea',
-        CG: 'Congo',
+Alpine.data('worldMapPanel', () => ({
+    activeCode: null,
+    countries: {},
+    init() {
+        this.countries = JSON.parse(this.$el.dataset.countries || '{}');
+
+        this.$el.addEventListener('world-map-region', (event) => {
+            this.activeCode = event.detail?.code ?? null;
+        });
+
+        initWorldMaps();
     },
-    select(code) {
-        this.activeCountry = this.activeCountry === code ? null : code;
+    selectCountry(code) {
+        if (!this.countries[code]) {
+            return;
+        }
+
+        this.activeCode = code;
+        this.$el.dispatchEvent(new CustomEvent('highlight-region', {
+            detail: { code },
+            bubbles: true,
+        }));
     },
-    getCountryName(code) {
-        return this.countries[code] || code;
+    countryName(code) {
+        return this.countries[code]?.name || code;
+    },
+    countryRegion(code) {
+        const country = this.countries[code];
+        if (!country) {
+            return '';
+        }
+
+        return country.type === 'hq'
+            ? `${country.region} · Headquarters`
+            : country.region;
     },
 }));
 
@@ -119,18 +137,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createIcons({ icons });
 
-    const heroSwiperEl = document.querySelector('.hero-swiper');
+    initWorldMaps();
+
+    const heroSwiperEl = document.querySelector('.premium-hero-swiper');
     if (heroSwiperEl) {
-        new Swiper('.hero-swiper', {
+        new Swiper('.premium-hero-swiper', {
+            modules: [Navigation, Pagination, Autoplay],
+            slidesPerView: 1,
+            loop: true,
+            autoplay: { delay: 7000, disableOnInteraction: false },
+            pagination: { el: '.premium-hero-swiper .premium-hero-pagination', clickable: true },
+            navigation: {
+                nextEl: '.premium-hero-swiper .swiper-button-next',
+                prevEl: '.premium-hero-swiper .swiper-button-prev',
+            },
+        });
+    }
+
+    const legacyHeroSwiperEl = document.querySelector('.hero-swiper:not(.premium-hero-swiper)');
+    if (legacyHeroSwiperEl) {
+        new Swiper('.hero-swiper:not(.premium-hero-swiper)', {
             modules: [Navigation, Pagination, Autoplay, EffectFade],
             effect: 'fade',
             fadeEffect: { crossFade: true },
             loop: true,
             autoplay: { delay: 6000, disableOnInteraction: false },
-            pagination: { el: '.hero-swiper .swiper-pagination', clickable: true },
+            pagination: { el: '.hero-swiper:not(.home-hero-swiper) .swiper-pagination', clickable: true },
             navigation: {
-                nextEl: '.hero-swiper .swiper-button-next',
-                prevEl: '.hero-swiper .swiper-button-prev',
+                nextEl: '.hero-swiper:not(.home-hero-swiper) .swiper-button-next',
+                prevEl: '.hero-swiper:not(.home-hero-swiper) .swiper-button-prev',
+            },
+        });
+    }
+
+    const csrHeroSwiperEl = document.querySelector('.csr-hero-swiper');
+    if (csrHeroSwiperEl) {
+        new Swiper('.csr-hero-swiper', {
+            modules: [Navigation, Pagination, Autoplay, EffectFade],
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+            loop: true,
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            pagination: { el: '.csr-hero-swiper .swiper-pagination', clickable: true },
+            navigation: {
+                nextEl: '.csr-hero-swiper .swiper-button-next',
+                prevEl: '.csr-hero-swiper .swiper-button-prev',
             },
         });
     }
