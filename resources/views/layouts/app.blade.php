@@ -7,6 +7,9 @@
 
     @include('components.seo', ['seo' => $seo ?? []])
 
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -43,14 +46,11 @@
     >
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ url('/') }}" class="flex items-center gap-3">
-                <img src="{{ asset('images/logo.png') }}" alt="Elama Healthcare" class="h-10 w-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                <div class="hidden h-10 w-10 items-center justify-center rounded-xl bg-primary font-heading text-lg font-bold text-white" style="display:none">
-                    E
-                </div>
-                <div class="hidden sm:block">
-                    <span :class="scrolled ? 'text-dark' : 'text-white'" class="font-heading text-lg font-bold transition-colors">Elama Healthcare</span>
-                    <span :class="scrolled ? 'text-muted' : 'text-white/70'" class="block text-xs transition-colors">Since 1986</span>
-                </div>
+                <img
+                    src="{{ asset('images/logo/logo.png') }}"
+                    alt="Elama Healthcare Solutions"
+                    class="h-11 w-auto rounded-lg bg-white/95 p-1 shadow-sm sm:h-12"
+                >
             </a>
 
             {{-- Desktop Nav --}}
@@ -172,13 +172,9 @@
         <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
             <div class="grid gap-12 lg:grid-cols-4">
                 <div class="lg:col-span-1">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary font-heading text-xl font-bold">E</div>
-                        <div>
-                            <p class="font-heading text-lg font-bold">Elama Healthcare</p>
-                            <p class="text-xs text-white/60">Solutions Pvt. Ltd.</p>
-                        </div>
-                    </div>
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('images/logo/logo.png') }}" alt="Elama Healthcare Solutions" class="h-14 w-auto rounded-lg bg-white p-1.5">
+                    </a>
                     <p class="mt-4 text-sm leading-relaxed text-white/70">
                         Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.
                     </p>

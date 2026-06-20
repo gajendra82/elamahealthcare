@@ -34,7 +34,7 @@
                 'name' => 'Dr. Ashwini Kulkarni',
                 'title' => 'Director',
                 'qualification' => 'MBBS, DMRD',
-                'photo' => asset('images/leadership/dr-ashwini-kulkarni.jpg'),
+                'photo' => asset('images/leadership/dr-ashwini-kulkarni.svg'),
                 'bio' => 'Dr. Ashwini Kulkarni has 20 years of experience in medical practice. She serves as Director at Kalwa Diagnostic Centre, Thane and is Chief Sonologist at Currae Hospital and IVF Birthing Center, Thane.',
                 'highlights' => [
                     'Director, Kalwa Diagnostic Centre, Thane',

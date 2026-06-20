@@ -25,7 +25,7 @@ class LeadershipSeeder extends Seeder
                 'qualification' => 'MBBS, DMRD',
                 'experience' => '20 years of experience in clinical practice.',
                 'achievements' => "Director at Kalwa Diagnostic Centre, Thane.\nChief Sonologist, Currae Hospital and IVF Birthing Center, Thane.\nOrganizing member, Asia (AOCR) Radiology Conference.",
-                'photo' => 'images/leadership/dr-ashwini-kulkarni.jpg',
+                'photo' => 'images/leadership/dr-ashwini-kulkarni.svg',
                 'sort_order' => 2,
             ],
         ];

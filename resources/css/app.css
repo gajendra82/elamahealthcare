@@ -8,27 +8,29 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
 @theme {
-    --color-primary: #0056A6;
-    --color-primary-dark: #003d75;
-    --color-primary-light: #1a6fbf;
-    --color-secondary: #00A884;
-    --color-secondary-dark: #008f6e;
-    --color-secondary-light: #33b996;
-    --color-accent: #4FC3F7;
-    --color-accent-dark: #29b6f6;
-    --color-background: #F8FAFC;
-    --color-dark: #0F172A;
-    --color-dark-muted: #334155;
-    --color-muted: #64748B;
+    /* Elama Healthcare logo palette */
+    --color-primary: #008641;
+    --color-primary-dark: #006432;
+    --color-primary-light: #3FA470;
+    --color-secondary: #A6C724;
+    --color-secondary-dark: #8AA81E;
+    --color-secondary-light: #BFD44A;
+    --color-accent: #3FA470;
+    --color-accent-dark: #2D8A5E;
+    --color-accent-mint: #BFE1CF;
+    --color-background: #F8FAF8;
+    --color-dark: #083848;
+    --color-dark-muted: #5B5B5B;
+    --color-muted: #848484;
     --color-border: #E2E8F0;
     --color-surface: #FFFFFF;
 
     --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
     --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-    --shadow-soft: 0 4px 24px -4px rgb(0 86 166 / 0.08);
-    --shadow-card: 0 8px 32px -8px rgb(15 23 42 / 0.12);
-    --shadow-glow: 0 0 40px -10px rgb(79 195 247 / 0.35);
+    --shadow-soft: 0 4px 24px -4px rgb(0 134 65 / 0.1);
+    --shadow-card: 0 8px 32px -8px rgb(8 56 72 / 0.12);
+    --shadow-glow: 0 0 40px -10px rgb(166 199 36 / 0.35);
 
     --radius-xl: 1rem;
     --radius-2xl: 1.25rem;
@@ -87,12 +89,12 @@
         background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         border-radius: 9999px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 14px -2px rgb(0 86 166 / 0.4);
+        box-shadow: 0 4px 14px -2px rgb(0 134 65 / 0.4);
     }
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px -4px rgb(0 86 166 / 0.5);
+        box-shadow: 0 8px 24px -4px rgb(0 134 65 / 0.5);
         background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     }
 
@@ -109,12 +111,12 @@
         background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
         border-radius: 9999px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 14px -2px rgb(0 168 132 / 0.35);
+        box-shadow: 0 4px 14px -2px rgb(166 199 36 / 0.35);
     }
 
     .btn-secondary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px -4px rgb(0 168 132 / 0.45);
+        box-shadow: 0 8px 24px -4px rgb(166 199 36 / 0.45);
     }
 
     .btn-outline {

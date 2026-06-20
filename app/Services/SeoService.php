@@ -19,7 +19,7 @@ class SeoService
                 'seo_default_description',
                 'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.'
             ),
-            'image' => asset($this->settingService->get('seo_default_image', 'images/logo/logo.jpeg')),
+            'image' => asset($this->settingService->get('seo_default_image', 'images/logo/logo.png')),
             'canonical' => url()->current(),
             'type' => 'website',
             'schema' => $this->organizationSchema(),
@@ -53,7 +53,7 @@ class SeoService
             '@type' => 'Organization',
             'name' => $this->settingService->get('company_name', 'Elama Healthcare Solutions Pvt. Ltd.'),
             'url' => url('/'),
-            'logo' => asset($this->settingService->get('company_logo', 'images/logo/logo.jpeg')),
+            'logo' => asset($this->settingService->get('company_logo', 'images/logo/logo.png')),
             'description' => $this->settingService->get(
                 'seo_default_description',
                 'Global Healthcare Solutions Built on Trust, Quality & Innovation.'

@@ -18,10 +18,10 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0056A6',
-                        secondary: '#00A884',
-                        'primary-dark': '#004080',
-                        'secondary-dark': '#008f6f',
+                        primary: '#008641',
+                        secondary: '#A6C724',
+                        'primary-dark': '#006432',
+                        'secondary-dark': '#8AA81E',
                     },
                     fontFamily: {
                         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -33,14 +33,14 @@
 
     <style>
         [x-cloak] { display: none !important; }
-        .sidebar-link.active { background-color: rgba(255,255,255,0.15); border-left: 3px solid #00A884; }
+        .sidebar-link.active { background-color: rgba(255,255,255,0.15); border-left: 3px solid #A6C724; }
         .dataTables_wrapper .dataTables_filter input,
         .dataTables_wrapper .dataTables_length select {
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             padding: 0.375rem 0.75rem;
         }
-        table.dataTable thead th { border-bottom: 2px solid #0056A6 !important; }
+        table.dataTable thead th { border-bottom: 2px solid #008641 !important; }
         .dt-layout-row { margin-bottom: 0.75rem; }
     </style>
 
@@ -56,7 +56,7 @@
         <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
                class="fixed inset-y-0 left-0 z-50 w-64 bg-primary text-white transition-transform duration-200 lg:static lg:translate-x-0 flex flex-col">
             <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-                <div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center font-bold text-lg">E</div>
+                <img src="{{ asset('images/logo/logo.png') }}" alt="Elama Healthcare" class="h-10 w-auto rounded-lg bg-white p-1">
                 <div>
                     <p class="font-semibold text-sm leading-tight">Elama Healthcare</p>
                     <p class="text-xs text-white/70">Admin Panel</p>

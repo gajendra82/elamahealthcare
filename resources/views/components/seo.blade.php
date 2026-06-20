@@ -11,7 +11,7 @@
         '@type' => 'Organization',
         'name' => 'Elama Healthcare Solutions Pvt. Ltd.',
         'url' => url('/'),
-        'logo' => asset('images/logo.png'),
+        'logo' => asset('images/logo/logo.png'),
         'description' => $description,
         'foundingDate' => '1986',
         'address' => [
