@@ -27,7 +27,7 @@ class BannerController extends Controller
     {
         $data = $request->validate([
             'title' => ['nullable', 'string', 'max:255'],
-            'subtitle' => ['nullable', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:2000'],
             'image' => ['required', 'image', 'max:5120'],
             'video' => ['nullable', 'string', 'max:255'],
             'button_text' => ['nullable', 'string', 'max:255'],
@@ -57,7 +57,7 @@ class BannerController extends Controller
     {
         $data = $request->validate([
             'title' => ['nullable', 'string', 'max:255'],
-            'subtitle' => ['nullable', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:2000'],
             'image' => ['nullable', 'image', 'max:5120'],
             'video' => ['nullable', 'string', 'max:255'],
             'button_text' => ['nullable', 'string', 'max:255'],
