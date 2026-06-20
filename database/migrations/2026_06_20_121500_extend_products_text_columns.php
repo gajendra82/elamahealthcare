@@ -1,24 +1,35 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->text('product_name')->change();
-            $table->text('composition')->nullable()->change();
-        });
+        $driver = Schema::getConnection()->getDriverName();
+
+        if ($driver === 'mysql') {
+            DB::statement('ALTER TABLE `products` MODIFY `product_name` TEXT NOT NULL');
+            DB::statement('ALTER TABLE `products` MODIFY `composition` TEXT NULL');
+            DB::statement('ALTER TABLE `products` MODIFY `description` TEXT NULL');
+
+            return;
+        }
+
+        if ($driver === 'sqlite') {
+            // SQLite stores strings as TEXT; no change required.
+            return;
+        }
     }
 
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('product_name')->change();
-            $table->text('composition')->nullable()->change();
-        });
+        if (Schema::getConnection()->getDriverName() !== 'mysql') {
+            return;
+        }
+
+        DB::statement('ALTER TABLE `products` MODIFY `product_name` VARCHAR(255) NOT NULL');
     }
 };
