@@ -1,17 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@php
-    $jobs = [
-        ['id' => 1, 'title' => 'Regulatory Affairs Manager', 'department' => 'Regulatory', 'location' => 'Navi Mumbai, India', 'type' => 'Full-time', 'experience' => '5-8 years', 'slug' => 'regulatory-affairs-manager'],
-        ['id' => 2, 'title' => 'Business Development Executive', 'department' => 'Sales & Marketing', 'location' => 'Navi Mumbai, India', 'type' => 'Full-time', 'experience' => '3-5 years', 'slug' => 'business-development-executive'],
-        ['id' => 3, 'title' => 'Quality Assurance Officer', 'department' => 'Quality', 'location' => 'Navi Mumbai, India', 'type' => 'Full-time', 'experience' => '2-4 years', 'slug' => 'quality-assurance-officer'],
-        ['id' => 4, 'title' => 'Formulation Scientist', 'department' => 'R&D', 'location' => 'Navi Mumbai, India', 'type' => 'Full-time', 'experience' => '3-6 years', 'slug' => 'formulation-scientist'],
-        ['id' => 5, 'title' => 'Export Documentation Executive', 'department' => 'Operations', 'location' => 'Navi Mumbai, India', 'type' => 'Full-time', 'experience' => '2-3 years', 'slug' => 'export-documentation-executive'],
-        ['id' => 6, 'title' => 'Medical Representative', 'department' => 'Sales', 'location' => 'Multiple Locations', 'type' => 'Full-time', 'experience' => '1-3 years', 'slug' => 'medical-representative'],
-    ];
-@endphp
-
 <section class="gradient-hero pt-32 pb-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-breadcrumb :items="[['label' => 'Careers']]" />
@@ -32,25 +21,46 @@
             </p>
         </div>
 
-        <div class="space-y-4">
-            @foreach($jobs as $job)
-                <a href="{{ url('/careers/' . $job['slug']) }}" class="glass-card hover-lift group flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between lg:p-8" data-aos="fade-up">
-                    <div>
-                        <h3 class="font-heading text-xl font-semibold text-dark group-hover:text-primary transition-colors">{{ $job['title'] }}</h3>
-                        <div class="mt-2 flex flex-wrap gap-3 text-sm text-muted">
-                            <span class="flex items-center gap-1"><i data-lucide="building" class="h-4 w-4"></i>{{ $job['department'] }}</span>
-                            <span class="flex items-center gap-1"><i data-lucide="map-pin" class="h-4 w-4"></i>{{ $job['location'] }}</span>
-                            <span class="flex items-center gap-1"><i data-lucide="clock" class="h-4 w-4"></i>{{ $job['type'] }}</span>
-                            <span class="flex items-center gap-1"><i data-lucide="briefcase" class="h-4 w-4"></i>{{ $job['experience'] }}</span>
+        @if($jobs->isNotEmpty())
+            <div class="space-y-4">
+                @foreach($jobs as $job)
+                    <a href="{{ route('careers.show', $job->slug) }}" class="glass-card hover-lift group flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between lg:p-8" data-aos="fade-up">
+                        <div>
+                            <h3 class="font-heading text-xl font-semibold text-dark transition-colors group-hover:text-primary">{{ $job->title }}</h3>
+                            <div class="mt-2 flex flex-wrap gap-3 text-sm text-muted">
+                                @if($job->department)
+                                    <span class="flex items-center gap-1"><i data-lucide="building" class="h-4 w-4"></i>{{ $job->department }}</span>
+                                @endif
+                                @if($job->location)
+                                    <span class="flex items-center gap-1"><i data-lucide="map-pin" class="h-4 w-4"></i>{{ $job->location }}</span>
+                                @endif
+                                @if($job->type)
+                                    <span class="flex items-center gap-1"><i data-lucide="clock" class="h-4 w-4"></i>{{ ucfirst(str_replace('-', ' ', $job->type)) }}</span>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                    <span class="btn-primary shrink-0 text-sm !py-2.5 !px-5">
-                        View & Apply
-                        <i data-lucide="arrow-right" class="h-4 w-4"></i>
-                    </span>
+                        <span class="btn-primary shrink-0 text-sm !py-2.5 !px-5">
+                            View & Apply
+                            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                        </span>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="glass-card mx-auto max-w-2xl rounded-2xl p-10 text-center" data-aos="fade-up">
+                <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <i data-lucide="briefcase" class="h-8 w-8"></i>
+                </div>
+                <h2 class="font-heading text-2xl font-bold text-dark">No Current Openings</h2>
+                <p class="mt-4 leading-relaxed text-muted">
+                    We do not have any open positions at the moment. Please check back later, or share your resume with us and we will reach out when a suitable opportunity opens.
+                </p>
+                <a href="{{ url('/contact') }}" class="btn-primary mt-8 inline-flex">
+                    Share Your Resume
+                    <i data-lucide="arrow-right" class="h-4 w-4"></i>
                 </a>
-            @endforeach
-        </div>
+            </div>
+        @endif
     </div>
 </section>
 
@@ -76,5 +86,5 @@
     </div>
 </section>
 
-<x-cta-section title="Don't See Your Role?" subtitle="Send us your resume and we'll reach out when a matching opportunity opens up." primaryLabel="Send Resume" primaryUrl="/contact" />
+<x-cta-section title="Interested in Joining Us?" subtitle="Send us your resume and we will reach out when a matching opportunity opens up." primaryLabel="Contact Us" primaryUrl="/contact" />
 @endsection

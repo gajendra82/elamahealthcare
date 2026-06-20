@@ -7,12 +7,10 @@
 {{-- Feature Stats --}}
 <section class="relative z-10 -mt-10 pb-4 lg:-mt-14">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-            <x-feature-stat-card icon="fas fa-globe" title="38+ Years of Excellence" description="Trusted pharmaceutical legacy" />
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <x-feature-stat-card icon="fas fa-pills" title="338+ Quality Products" description="Diversified portfolio" />
             <x-feature-stat-card icon="fas fa-map-marked-alt" title="15+ Countries Worldwide" description="Global market presence" />
-            <x-feature-stat-card icon="fas fa-industry" title="WHO-GMP Approved Facilities" description="Quality manufacturing standards" />
-            <x-feature-stat-card icon="fas fa-users" title="Dedicated Team of Professionals" description="Expert pharmaceutical workforce" class="sm:col-span-2 xl:col-span-1" />
+            <x-feature-stat-card icon="fas fa-users" title="Dedicated Team of Professionals" description="Expert pharmaceutical workforce" />
         </div>
     </div>
 </section>

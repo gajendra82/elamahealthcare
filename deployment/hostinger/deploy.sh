@@ -98,6 +98,7 @@ run php artisan db:seed --class=BannerSeeder --force
 run php artisan db:seed --class=CategorySeeder --force
 run php artisan db:seed --class=ProductSeeder --force
 run php artisan db:seed --class=LeadershipSeeder --force
+run php artisan db:seed --class=CareerJobSeeder --force
 
 log "Ensure upload directories"
 mkdir -p "$ROOT/public/uploads"
