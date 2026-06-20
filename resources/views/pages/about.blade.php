@@ -31,7 +31,7 @@
                 </p>
             </div>
             <div data-aos="fade-left">
-                <img src="{{ asset('images/about/about-full.jpg') }}" alt="Elama Healthcare" class="rounded-3xl shadow-card" loading="lazy">
+                <x-image :src="config('assets.about_full')" placeholder="about" alt="Elama Healthcare" class="rounded-3xl shadow-card w-full" />
             </div>
         </div>
     </div>

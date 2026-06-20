@@ -13,7 +13,7 @@ class SettingSeeder extends Seeder
             ['key' => 'company_name', 'value' => 'Elama Healthcare Solutions Pvt. Ltd.', 'group' => 'company'],
             ['key' => 'company_tagline', 'value' => 'Global Healthcare Solutions Built on Trust, Quality & Innovation', 'group' => 'company'],
             ['key' => 'company_founded', 'value' => '1986', 'group' => 'company'],
-            ['key' => 'company_logo', 'value' => 'images/logo/logo.png', 'group' => 'company'],
+            ['key' => 'company_logo', 'value' => 'images/logo/logo.jpeg', 'group' => 'company'],
             ['key' => 'company_mission', 'value' => 'Serve Global Healthcare needs through Empathy, Innovation and Technology.', 'group' => 'company'],
             ['key' => 'company_vision', 'value' => 'Lead the way to bring Wellness and Healthcare to the world.', 'group' => 'company'],
 
@@ -33,7 +33,7 @@ class SettingSeeder extends Seeder
 
             ['key' => 'seo_default_title', 'value' => 'Elama Healthcare Solutions Pvt. Ltd.', 'group' => 'seo'],
             ['key' => 'seo_default_description', 'value' => 'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.', 'group' => 'seo'],
-            ['key' => 'seo_default_image', 'value' => 'images/logo/logo.png', 'group' => 'seo'],
+            ['key' => 'seo_default_image', 'value' => 'images/logo/logo.jpeg', 'group' => 'seo'],
         ];
 
         foreach ($settings as $setting) {

@@ -2,13 +2,12 @@
 
 <div {{ $attributes->merge(['class' => 'glass-card hover-lift overflow-hidden rounded-2xl']) }} data-aos="fade-up">
     <div class="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-        <img
-            src="{{ $leader['photo'] ?? asset('images/leadership/default.jpg') }}"
-            alt="{{ $leader['name'] }}"
+        <x-image
+            :src="$leader['photo_path'] ?? null"
+            placeholder="leadership"
+            :alt="$leader['name']"
             class="absolute inset-0 h-full w-full max-w-none object-contain object-center"
-            loading="lazy"
-            decoding="async"
-        >
+        />
         <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
             <h3 class="font-heading text-xl font-bold">{{ $leader['name'] }}</h3>

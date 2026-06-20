@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-6 text-center">
-        <img src="{{ asset('images/logo/logo.png') }}" alt="Elama Healthcare" class="mx-auto h-16 w-auto mb-4">
+        <x-logo class="mx-auto h-16 mb-4" />
         <h2 class="text-xl font-semibold text-gray-800">Admin Panel</h2>
         <p class="text-sm text-gray-500 mt-1">Sign in to manage your website</p>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\CsrGallery;
 use App\Models\Leadership;
 use App\Models\News;
 use App\Models\Testimonial;
@@ -31,6 +32,7 @@ class HomeController extends Controller
             'testimonials' => Testimonial::query()->active()->ordered()->limit(6)->get(),
             'news' => News::query()->active()->published()->latestNews()->limit(3)->get(),
             'leadership' => Leadership::query()->active()->ordered()->limit(2)->get(),
+            'csrGalleries' => CsrGallery::query()->active()->ordered()->limit(4)->get(),
         ]);
     }
 }

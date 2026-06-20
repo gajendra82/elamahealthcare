@@ -13,19 +13,19 @@ class CsrGallerySeeder extends Seeder
             [
                 'title' => 'Community Health Camp',
                 'description' => 'Free health screening and medicine distribution for underserved communities.',
-                'image' => 'images/banners/hero-1.jpeg',
+                'image' => 'images/csr/csr-1.jpeg',
                 'sort_order' => 1,
             ],
             [
                 'title' => 'Medical Education Initiative',
                 'description' => 'Supporting continuing medical education for healthcare professionals in Thane district.',
-                'image' => 'images/banners/hero-2.jpeg',
+                'image' => 'images/csr/csr-2.jpeg',
                 'sort_order' => 2,
             ],
             [
                 'title' => 'Healthcare Access Program',
                 'description' => 'Partnering with local organizations to improve access to affordable medicines.',
-                'image' => 'images/banners/hero-1.jpeg',
+                'image' => 'images/csr/csr-1.jpeg',
                 'sort_order' => 3,
             ],
         ];

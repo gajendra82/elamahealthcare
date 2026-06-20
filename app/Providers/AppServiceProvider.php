@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\AssetService;
 use App\Services\SettingService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -10,7 +11,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(AssetService::class);
     }
 
     public function boot(): void
@@ -18,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $view->with('settings', app(SettingService::class)->all());
             $view->with('settingsGrouped', app(SettingService::class)->grouped());
+            $view->with('assetService', app(AssetService::class));
         });
     }
 }

@@ -21,3 +21,10 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Local/dev artifacts — not for production
+/public/images/leadership/debug-*
+/public/images/leadership/_tmp
+/public/images/logo/logo-page-*
+/public/images/logo/logo-extract-*
+/public/images/logo/logo-full.png

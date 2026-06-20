@@ -5,7 +5,8 @@ namespace App\Services;
 class SeoService
 {
     public function __construct(
-        private readonly SettingService $settingService
+        private readonly SettingService $settingService,
+        private readonly AssetService $assetService,
     ) {}
 
     public function defaults(): array
@@ -19,7 +20,7 @@ class SeoService
                 'seo_default_description',
                 'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.'
             ),
-            'image' => asset($this->settingService->get('seo_default_image', 'images/logo/logo.png')),
+            'image' => $this->assetService->seoImageUrl(),
             'canonical' => url()->current(),
             'type' => 'website',
             'schema' => $this->organizationSchema(),
@@ -39,7 +40,7 @@ class SeoService
         return [
             'title' => $title,
             'description' => $description ?? $defaults['description'],
-            'image' => $image ? asset($image) : $defaults['image'],
+            'image' => $image ? $this->assetService->url($image, 'logo') : $defaults['image'],
             'canonical' => $canonical ?? url()->current(),
             'type' => $type,
             'schema' => $schema ?? $this->organizationSchema(),
@@ -53,7 +54,7 @@ class SeoService
             '@type' => 'Organization',
             'name' => $this->settingService->get('company_name', 'Elama Healthcare Solutions Pvt. Ltd.'),
             'url' => url('/'),
-            'logo' => asset($this->settingService->get('company_logo', 'images/logo/logo.png')),
+            'logo' => $this->assetService->logoUrl(),
             'description' => $this->settingService->get(
                 'seo_default_description',
                 'Global Healthcare Solutions Built on Trust, Quality & Innovation.'
@@ -87,7 +88,7 @@ class SeoService
             'name' => $product['name'] ?? $product['product_name'] ?? '',
             'description' => $product['description'] ?? '',
             'category' => $product['category'] ?? '',
-            'image' => $product['image'] ?? asset('images/products/default.jpg'),
+            'image' => $product['image'] ?? asset_url(null, 'product'),
             'brand' => [
                 '@type' => 'Brand',
                 'name' => $this->settingService->get('company_name', 'Elama Healthcare Solutions Pvt. Ltd.'),

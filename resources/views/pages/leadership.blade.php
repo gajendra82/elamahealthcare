@@ -17,31 +17,16 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-section-heading label="Directors" title="Executive Leadership" subtitle="Our directors bring decades of medical expertise and industry leadership." />
         <div class="grid gap-8 lg:grid-cols-2">
-            <x-leadership-card :leader="[
-                'name' => 'Dr. Rahul Kulkarni',
-                'title' => 'Director',
-                'qualification' => 'MBBS, MS ENT – Mumbai',
-                'photo' => asset('images/leadership/dr-rahul-kulkarni.jpg'),
-                'bio' => 'Dr. Rahul Kulkarni brings more than 25 years of experience in the Medical Field. He serves as Hon. Consultant at Sir J J Group of Hospitals and is Head of the ENT department at St George Hospital.',
-                'highlights' => [
-                    'President, ENT Association of India, Mumbai Branch',
-                    'Heading Kalwa ENT Centre, Kalwa, Thane, Mumbai',
-                    'Chief ENT Consultant, Currae Hospital, Thane',
-                    'Hon. Consultant, Sir J J Group of Hospitals',
-                ],
-            ]" />
-            <x-leadership-card :leader="[
-                'name' => 'Dr. Ashwini Kulkarni',
-                'title' => 'Director',
-                'qualification' => 'MBBS, DMRD',
-                'photo' => asset('images/leadership/dr-ashwini-kulkarni.svg'),
-                'bio' => 'Dr. Ashwini Kulkarni has 20 years of experience in medical practice. She serves as Director at Kalwa Diagnostic Centre, Thane and is Chief Sonologist at Currae Hospital and IVF Birthing Center, Thane.',
-                'highlights' => [
-                    'Director, Kalwa Diagnostic Centre, Thane',
-                    'Chief Sonologist, Currae Hospital and IVF Birthing Center, Thane',
-                    'Organizing member, Asia (AOCR) Radiology Conference',
-                ],
-            ]" />
+            @foreach($leadership as $member)
+                <x-leadership-card :leader="[
+                    'name' => $member->name,
+                    'title' => $member->designation,
+                    'qualification' => $member->qualification,
+                    'photo_path' => $member->photo,
+                    'bio' => $member->experience,
+                    'highlights' => array_values(array_filter(preg_split('/\r\n|\r|\n/', (string) $member->achievements))),
+                ]" />
+            @endforeach
         </div>
     </div>
 </section>

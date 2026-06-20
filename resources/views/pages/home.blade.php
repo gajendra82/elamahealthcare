@@ -5,16 +5,19 @@
 <section class="relative min-h-screen overflow-hidden gradient-hero">
     <div class="hero-swiper swiper absolute inset-0 h-full w-full">
         <div class="swiper-wrapper">
-            @foreach([
-                ['image' => 'images/hero/hero-1.jpg', 'title' => 'Global Healthcare Solutions'],
-                ['image' => 'images/hero/hero-2.jpg', 'title' => 'Quality You Can Trust'],
-                ['image' => 'images/hero/hero-3.jpg', 'title' => 'Innovation Since 1986'],
-            ] as $slide)
+            @forelse($banners as $banner)
                 <div class="swiper-slide relative">
-                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset($slide['image']) }}')"></div>
+                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset_url($banner->image, 'hero') }}')"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-primary/40"></div>
                 </div>
-            @endforeach
+            @empty
+                @foreach(config('assets.hero_banners', []) as $slide)
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset_url($slide['path'], 'hero') }}')"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-primary/40"></div>
+                    </div>
+                @endforeach
+            @endforelse
         </div>
         <div class="swiper-pagination !bottom-32"></div>
         <div class="swiper-button-prev !text-white"></div>
@@ -66,7 +69,7 @@
             </div>
             <div class="relative" data-aos="fade-left">
                 <div class="overflow-hidden rounded-3xl shadow-card">
-                    <img src="{{ asset('images/about/about-preview.jpg') }}" alt="Elama Healthcare Facility" class="h-full w-full object-cover" loading="lazy">
+                    <x-image :src="config('assets.about_preview')" placeholder="about" alt="Elama Healthcare Facility" class="h-full w-full object-cover" />
                 </div>
                 <div class="absolute -bottom-6 -left-6 glass-card rounded-2xl p-6 shadow-card lg:-left-8">
                     <p class="font-heading text-4xl font-bold text-primary">1986</p>
@@ -236,9 +239,9 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-section-heading label="Certifications" title="Regulatory Approvals & Certifications" subtitle="Our manufacturing partners maintain the highest international standards." />
         <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
-            @foreach(['who-gmp.png', 'uk-mhra.png', 'eu-gmp.png', 'usfda.png', 'iso.png'] as $cert)
+            @foreach(config('assets.certificates', []) as $cert)
                 <div class="glass-card hover-lift rounded-2xl p-6" data-aos="fade-up">
-                    <img src="{{ asset('images/certificates/' . $cert) }}" alt="Certification" class="h-16 w-auto object-contain grayscale transition-all hover:grayscale-0" loading="lazy">
+                    <x-image :src="$cert" placeholder="certificate" alt="Certification" class="h-16 w-auto object-contain grayscale transition-all hover:grayscale-0" />
                 </div>
             @endforeach
         </div>
@@ -250,22 +253,16 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-section-heading label="Leadership" title="Meet Our Directors" subtitle="Experienced medical professionals leading Elama Healthcare's vision." />
         <div class="grid gap-8 md:grid-cols-2">
-            <x-leadership-card :leader="[
-                'name' => 'Dr. Rahul Kulkarni',
-                'title' => 'Director',
-                'qualification' => 'MBBS, MS ENT – Mumbai',
-                'photo' => asset('images/leadership/dr-rahul-kulkarni.jpg'),
-                'bio' => 'More than 25 years experience in the Medical Field. Hon. Consultant at Sir J J Group of Hospitals. Head of ENT dept at St George Hospital.',
-                'highlights' => ['President, ENT Association of India, Mumbai Branch', 'Chief ENT Consultant, Currae Hospital, Thane'],
-            ]" />
-            <x-leadership-card :leader="[
-                'name' => 'Dr. Ashwini Kulkarni',
-                'title' => 'Director',
-                'qualification' => 'MBBS, DMRD',
-                'photo' => asset('images/leadership/dr-ashwini-kulkarni.svg'),
-                'bio' => '20 years of experience in practice. Director at Kalwa Diagnostic Centre, Thane. Chief Sonologist at Currae Hospital and IVF Birthing Center.',
-                'highlights' => ['Organizing member, Asia (AOCR) Radiology Conference'],
-            ]" />
+            @foreach($leadership as $member)
+                <x-leadership-card :leader="[
+                    'name' => $member->name,
+                    'title' => $member->designation,
+                    'qualification' => $member->qualification,
+                    'photo_path' => $member->photo,
+                    'bio' => $member->experience,
+                    'highlights' => array_values(array_filter(preg_split('/\r\n|\r|\n/', (string) $member->achievements))),
+                ]" />
+            @endforeach
         </div>
         <div class="mt-10 text-center">
             <a href="{{ url('/leadership') }}" class="btn-outline">View Full Leadership</a>
@@ -278,11 +275,17 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid items-center gap-12 lg:grid-cols-2">
             <div class="grid grid-cols-2 gap-4" data-aos="fade-right">
-                @foreach(['csr-1.jpg', 'csr-2.jpg', 'csr-3.jpg', 'csr-4.jpg'] as $img)
+                @forelse($csrGalleries as $gallery)
                     <div class="overflow-hidden rounded-2xl {{ $loop->index % 2 === 0 ? 'mt-8' : '' }}">
-                        <img src="{{ asset('images/csr/' . $img) }}" alt="CSR Activity" class="h-48 w-full object-cover transition-transform hover:scale-105" loading="lazy">
+                        <x-image :src="$gallery->image" placeholder="csr" :alt="$gallery->title" class="h-48 w-full object-cover transition-transform hover:scale-105" />
                     </div>
-                @endforeach
+                @empty
+                    @foreach(config('assets.csr', []) as $csrImage)
+                        <div class="overflow-hidden rounded-2xl {{ $loop->index % 2 === 0 ? 'mt-8' : '' }}">
+                            <x-image :src="$csrImage" placeholder="csr" alt="CSR Activity" class="h-48 w-full object-cover transition-transform hover:scale-105" />
+                        </div>
+                    @endforeach
+                @endforelse
             </div>
             <div data-aos="fade-left">
                 <span class="section-label mb-4 inline-block">CSR</span>
@@ -305,13 +308,14 @@
         <x-section-heading label="Testimonials" title="What Our Partners Say" subtitle="Trusted by healthcare professionals and business partners worldwide." />
         <div class="testimonial-swiper swiper relative pb-12">
             <div class="swiper-wrapper">
-                @foreach([
-                    ['name' => 'Dr. James Mwangi', 'role' => 'Chief Medical Officer', 'company' => 'Nairobi Health Systems', 'quote' => 'Elama Healthcare has consistently delivered quality medicines that our patients depend on. Their commitment to affordability without compromising quality is remarkable.'],
-                    ['name' => 'Nguyen Van Minh', 'role' => 'Procurement Director', 'company' => 'VietPharma Distribution', 'quote' => 'Our partnership with Elama spans over a decade. Their regulatory expertise and timely dossier submissions have been instrumental to our market success.'],
-                    ['name' => 'Sarah Thompson', 'role' => 'VP Operations', 'company' => 'GlobalMed Partners', 'quote' => 'The flexibility and professionalism of the Elama team sets them apart. They understand our unique market needs and deliver tailored solutions every time.'],
-                ] as $testimonial)
+                @foreach($testimonials as $testimonial)
                     <div class="swiper-slide">
-                        <x-testimonial-card :testimonial="$testimonial" />
+                        <x-testimonial-card :testimonial="[
+                            'name' => $testimonial->name,
+                            'quote' => $testimonial->content,
+                            'role' => $testimonial->designation,
+                            'company' => $testimonial->company,
+                        ]" />
                     </div>
                 @endforeach
             </div>
@@ -327,19 +331,15 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-section-heading label="News" title="Latest Updates" subtitle="Stay informed about our latest developments and industry insights." />
         <div class="grid gap-8 md:grid-cols-3">
-            @foreach([
-                ['title' => 'Elama Expands Oncology Portfolio', 'date' => 'March 2026', 'excerpt' => 'New oncology products added to our international pipeline, strengthening our presence in high-growth therapeutic segments.', 'image' => 'news-1.jpg'],
-                ['title' => 'WHO GMP Certification Renewed', 'date' => 'January 2026', 'excerpt' => 'Our manufacturing partners successfully renewed WHO GMP certification, reaffirming our commitment to quality standards.', 'image' => 'news-2.jpg'],
-                ['title' => 'New Market Entry: Mozambique', 'date' => 'November 2025', 'excerpt' => 'Elama Healthcare expands its African footprint with product registrations approved in Mozambique.', 'image' => 'news-3.jpg'],
-            ] as $news)
+            @foreach($news as $article)
                 <article class="glass-card hover-lift group overflow-hidden rounded-2xl" data-aos="fade-up">
                     <div class="aspect-video overflow-hidden">
-                        <img src="{{ asset('images/news/' . $news['image']) }}" alt="{{ $news['title'] }}" class="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy">
+                        <x-image :src="$article->image" placeholder="news" :alt="$article->title" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
                     </div>
                     <div class="p-6">
-                        <time class="text-xs font-semibold uppercase tracking-wider text-secondary">{{ $news['date'] }}</time>
-                        <h3 class="mt-2 font-heading text-lg font-semibold text-dark">{{ $news['title'] }}</h3>
-                        <p class="mt-2 text-sm text-muted">{{ $news['excerpt'] }}</p>
+                        <time class="text-xs font-semibold uppercase tracking-wider text-secondary">{{ optional($article->published_at)->format('F Y') ?? $article->created_at->format('F Y') }}</time>
+                        <h3 class="mt-2 font-heading text-lg font-semibold text-dark">{{ $article->title }}</h3>
+                        <p class="mt-2 text-sm text-muted">{{ $article->excerpt }}</p>
                     </div>
                 </article>
             @endforeach

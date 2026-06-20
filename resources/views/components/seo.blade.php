@@ -4,14 +4,14 @@
     $title = $seo['title'] ?? 'Elama Healthcare Solutions Pvt. Ltd.';
     $description = $seo['description'] ?? 'Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.';
     $canonical = $seo['canonical'] ?? url()->current();
-    $image = $seo['image'] ?? asset('images/og-default.jpg');
+    $image = $seo['image'] ?? asset_url(config('assets.seo_image'), 'logo');
     $type = $seo['type'] ?? 'website';
     $schema = $seo['schema'] ?? [
         '@context' => 'https://schema.org',
         '@type' => 'Organization',
         'name' => 'Elama Healthcare Solutions Pvt. Ltd.',
         'url' => url('/'),
-        'logo' => asset('images/logo/logo.png'),
+        'logo' => asset_url(config('assets.logo'), 'logo'),
         'description' => $description,
         'foundingDate' => '1986',
         'address' => [

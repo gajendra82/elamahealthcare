@@ -23,35 +23,35 @@
 
         {{-- Masonry Gallery with LightGallery --}}
         <div id="csr-gallery" class="columns-1 gap-4 sm:columns-2 lg:columns-3">
-            @foreach([
-                ['src' => 'csr-1.jpg', 'title' => 'Health Camp - Navi Mumbai', 'desc' => 'Free medical checkup camp for underserved communities'],
-                ['src' => 'csr-2.jpg', 'title' => 'Medicine Donation Drive', 'desc' => 'Essential medicines donated to rural healthcare centers'],
-                ['src' => 'csr-3.jpg', 'title' => 'School Health Program', 'desc' => 'Health awareness sessions for school children'],
-                ['src' => 'csr-4.jpg', 'title' => 'Women Wellness Initiative', 'desc' => 'Gynecology health screening for women in rural areas'],
-                ['src' => 'csr-5.jpg', 'title' => 'Disaster Relief Support', 'desc' => 'Emergency medical supplies during natural disasters'],
-                ['src' => 'csr-6.jpg', 'title' => 'Tree Plantation Drive', 'desc' => 'Environmental sustainability through green initiatives'],
-                ['src' => 'csr-7.jpg', 'title' => 'Blood Donation Camp', 'desc' => 'Employee-led blood donation drive at corporate office'],
-                ['src' => 'csr-8.jpg', 'title' => 'Elderly Care Program', 'desc' => 'Free medicines and health support for senior citizens'],
-                ['src' => 'csr-9.jpg', 'title' => 'Community Pharmacy', 'desc' => 'Subsidized pharmacy services for low-income families'],
-            ] as $photo)
+            @forelse($galleries as $photo)
                 <a
-                    href="{{ asset('images/csr/' . $photo['src']) }}"
+                    href="{{ asset_url($photo->image, 'csr') }}"
                     class="gallery-item masonry-item group block overflow-hidden rounded-2xl"
-                    data-sub-html="<h4>{{ $photo['title'] }}</h4><p>{{ $photo['desc'] }}</p>"
+                    data-sub-html="<h4>{{ $photo->title }}</h4><p>{{ $photo->description }}</p>"
                     data-aos="fade-up"
                 >
-                    <img
-                        src="{{ asset('images/csr/' . $photo['src']) }}"
-                        alt="{{ $photo['title'] }}"
+                    <x-image
+                        :src="$photo->image"
+                        placeholder="csr"
+                        :alt="$photo->title"
                         class="w-full rounded-2xl object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                    >
+                    />
                     <div class="mt-2 px-1">
-                        <p class="font-heading text-sm font-semibold text-dark">{{ $photo['title'] }}</p>
-                        <p class="text-xs text-muted">{{ $photo['desc'] }}</p>
+                        <p class="font-heading text-sm font-semibold text-dark">{{ $photo->title }}</p>
+                        <p class="text-xs text-muted">{{ $photo->description }}</p>
                     </div>
                 </a>
-            @endforeach
+            @empty
+                @foreach(config('assets.csr', []) as $index => $csrImage)
+                    <a
+                        href="{{ asset_url($csrImage, 'csr') }}"
+                        class="gallery-item masonry-item group block overflow-hidden rounded-2xl"
+                        data-aos="fade-up"
+                    >
+                        <x-image :src="$csrImage" placeholder="csr" alt="CSR Activity" class="w-full rounded-2xl object-cover" />
+                    </a>
+                @endforeach
+            @endforelse
         </div>
     </div>
 </section>

@@ -56,7 +56,7 @@
         <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
                class="fixed inset-y-0 left-0 z-50 w-64 bg-primary text-white transition-transform duration-200 lg:static lg:translate-x-0 flex flex-col">
             <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-                <img src="{{ asset('images/logo/logo.png') }}" alt="Elama Healthcare" class="h-10 w-auto rounded-lg bg-white p-1">
+                <x-logo class="h-10 bg-white p-1" />
                 <div>
                     <p class="font-semibold text-sm leading-tight">Elama Healthcare</p>
                     <p class="text-xs text-white/70">Admin Panel</p>

@@ -46,11 +46,7 @@
     >
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ url('/') }}" class="flex items-center gap-3">
-                <img
-                    src="{{ asset('images/logo/logo.png') }}"
-                    alt="Elama Healthcare Solutions"
-                    class="h-11 w-auto rounded-lg bg-white/95 p-1 shadow-sm sm:h-12"
-                >
+                <x-logo class="sm:h-12" />
             </a>
 
             {{-- Desktop Nav --}}
@@ -173,7 +169,7 @@
             <div class="grid gap-12 lg:grid-cols-4">
                 <div class="lg:col-span-1">
                     <a href="{{ url('/') }}">
-                        <img src="{{ asset('images/logo/logo.png') }}" alt="Elama Healthcare Solutions" class="h-14 w-auto rounded-lg bg-white p-1.5">
+                        <x-logo class="h-14 bg-white p-1.5" />
                     </a>
                     <p class="mt-4 text-sm leading-relaxed text-white/70">
                         Global Healthcare Solutions Built on Trust, Quality & Innovation. Delivering affordable quality pharmaceutical products across the globe since 1986.

@@ -2,23 +2,25 @@
     'assets' => ['resources/css/app.css', 'resources/js/app.js'],
 ])
 
-@if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+@if (file_exists(public_path('build/manifest.json')))
+    @vite($assets)
+@elseif (file_exists(public_path('hot')))
     @vite($assets)
 @else
     @php
-        $cssFiles = glob(public_path('build/assets/app-*.css')) ?: [];
-        $jsFiles = glob(public_path('build/assets/app-*.js')) ?: [];
+        $manifest = [];
+        if (is_file(public_path('build/manifest.json'))) {
+            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true) ?? [];
+        }
+        $cssEntry = $manifest['resources/css/app.css']['file'] ?? null;
+        $jsEntry = $manifest['resources/js/app.js']['file'] ?? null;
     @endphp
 
-    @foreach ($cssFiles as $cssFile)
-        <link rel="stylesheet" href="{{ asset('build/assets/'.basename($cssFile)) }}">
-    @endforeach
+    @if ($cssEntry)
+        <link rel="stylesheet" href="{{ asset('build/'.$cssEntry) }}">
+    @endif
 
-    @foreach ($jsFiles as $jsFile)
-        <script type="module" src="{{ asset('build/assets/'.basename($jsFile)) }}"></script>
-    @endforeach
-
-    @if (empty($cssFiles) && empty($jsFiles) && app()->isProduction())
-        <!-- Missing Vite build: run `npm run build` on your PC and upload the public/build/ folder -->
+    @if ($jsEntry)
+        <script type="module" src="{{ asset('build/'.$jsEntry) }}"></script>
     @endif
 @endif

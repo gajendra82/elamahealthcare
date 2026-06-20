@@ -43,7 +43,8 @@ class ProductService
             'composition' => $product->composition,
             'packaging' => $product->packaging,
             'format' => $product->format,
-            'image' => $product->image ? asset($product->image) : asset('images/products/default.jpg'),
+            'image' => asset_url($product->image, 'product'),
+            'image_path' => $product->image,
             'url' => route('products.show', $product->slug),
         ];
     }

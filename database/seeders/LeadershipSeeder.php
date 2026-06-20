@@ -16,7 +16,7 @@ class LeadershipSeeder extends Seeder
                 'qualification' => 'MBBS, MS ENT – Mumbai',
                 'experience' => 'More than 25 years experience in the Medical Field.',
                 'achievements' => "Hon. Consultant at Sir JJ Group of Hospitals.\nHead of ENT Department at St George Hospital.\nFormer President, ENT Association of India, Mumbai Branch.\nHeading Kalwa ENT Centre, Kalwa, Thane.\nChief ENT Consultant, Currae Hospital, Thane.",
-                'photo' => 'images/leadership/dr-rahul-kulkarni.jpg',
+                'photo' => config('assets.leadership.rahul'),
                 'sort_order' => 1,
             ],
             [
@@ -25,7 +25,7 @@ class LeadershipSeeder extends Seeder
                 'qualification' => 'MBBS, DMRD',
                 'experience' => '20 years of experience in clinical practice.',
                 'achievements' => "Director at Kalwa Diagnostic Centre, Thane.\nChief Sonologist, Currae Hospital and IVF Birthing Center, Thane.\nOrganizing member, Asia (AOCR) Radiology Conference.",
-                'photo' => 'images/leadership/dr-ashwini-kulkarni.svg',
+                'photo' => config('assets.leadership.ashwini'),
                 'sort_order' => 2,
             ],
         ];
