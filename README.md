@@ -68,6 +68,53 @@ npm run dev   # in another terminal for hot reload
 
 Visit: **http://localhost:8000**
 
+## Production deployment (Hostinger / shared hosting)
+
+### 1. Build assets on your computer (required)
+
+```bash
+npm install
+npm run build
+```
+
+This creates `public/build/` with `manifest.json` and CSS/JS files.
+
+### 2. Upload to server
+
+Upload these folders/files via FTP or File Manager:
+
+- `public/build/` → entire folder (includes `manifest.json` + `assets/`)
+- `public/images/` → logos and site images
+- All Laravel app files + `vendor/` (or run `composer install` on server)
+
+Server path example:
+
+```
+/home/u977698748/domains/elamahealthcare.com/laravel/elamahealthcare/public/build/manifest.json
+```
+
+### 3. Server commands
+
+```bash
+composer install --no-dev --optimize-autoloader
+php artisan migrate --force
+php artisan db:seed --force
+php artisan storage:link
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+### 4. `.env` on production
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://elamahealthcare.com
+```
+
+**Important:** If you see `Vite manifest not found`, the `public/build/` folder was not uploaded. Run `npm run build` locally and upload it again.
+
 ## Admin Access
 
 | | |
